@@ -23,7 +23,7 @@ app.use(
 );
 
 app.get("/test-api", (req, res) => {
-  res.send("Hi Nattharika..");
+  res.send("Hi Nan..");
 });
 
 app.use(express.static("public"));

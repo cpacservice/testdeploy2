@@ -1,14 +1,14 @@
 module.exports = {
-  port: 7000,
+  port: process.env.PORT,
   db: {
-    host: "localhost",
-    user: "root",
-    password: "12345678",
-    database: "cpac",
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
   },
   socket: {
-    url: "https://socket.bpcd.xenex.io",
-    user: "bpcd",
-    pass: "bpcd!@1234",
+    url: process.env.SOCKET_URL,
+    user: process.env.SOCKET_USER,
+    pass: process.env.SOCKET_PASSWORD,
   },
 };

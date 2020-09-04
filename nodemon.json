@@ -1,0 +1,10 @@
+{
+    "env":{
+        "JWT_KEY": "secret",
+        "SENDGRID_API_KEY":"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",
+        "secretKey":"6LecZAEVAAAAAHaZ88ug7tfSSJVsslIEHyWq2EP3"
+    
+
+        
+    }
+}

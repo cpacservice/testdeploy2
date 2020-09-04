@@ -22,6 +22,10 @@ app.use(
   })
 );
 
+app.get("/test-api", (req, res) => {
+  res.send("Hi Nattharika..");
+});
+
 app.use(express.static("public"));
 
 app.use((req, res, next) => {

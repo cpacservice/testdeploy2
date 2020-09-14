@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const config = require("./config/database");
 const socket = require("./lib/socket");
@@ -12,6 +13,7 @@ const socket = require("./lib/socket");
 // })
 
 const app = express();
+app.use(cors);
 
 const compression = require("compression");
 app.use(

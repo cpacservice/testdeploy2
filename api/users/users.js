@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 module.exports = router;
-let refreshToken = [];
 
 router.post("/login", async (req, res) => {
   let db = req.db;
@@ -54,7 +53,7 @@ router.post("/login", async (req, res) => {
         },
         process.env.JWT_KEY,
         {
-          expiresIn: "1h",
+          expiresIn: "7d",
         }
       );
       return res.send({
@@ -72,25 +71,6 @@ router.post("/login", async (req, res) => {
     res.send({ ok: false, error: e.message });
   } //ใข้งานได้
 });
-
-// router.post("/checkcaptcha", async (req, res) => {
-//   if (req.body.captcha === null || req.body.captcha === '' || req.body.captcha === undefined) {
-
-//     return res.send({
-//       ok: false,
-//       message: "ยืนยัน captcha ไม่ถูกต้อง",
-//     });
-
-//   } else {
-//     const query = stringify({
-//       secret: process.env.secretKey,
-//       response: req.body.captcha,
-//       remoteip: req.connection.remoteAddress
-//     });
-//     const verifyURL = `https://google.com/recaptcha/api/siteverify?${query}`;
-//   }
-
-// })
 
 router.post("/register", async (req, res) => {
   let checknull = await req.db("users");
@@ -148,7 +128,7 @@ router.post("/register", async (req, res) => {
     }
   } catch (e) {
     res.send({ ok: false, error: e.message });
-  } 
+  }
 });
 
 router.get("/me", async (req, res) => {
@@ -199,7 +179,8 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/update", async (req, res) => { //put
+router.post("/update", async (req, res) => {
+  //put
   try {
     let db = req.db;
     await db("users").where({ email: req.body.email }).update({
@@ -210,6 +191,19 @@ router.post("/update", async (req, res) => { //put
       phone: req.body.phone,
       address: req.body.address,
       age: req.body.age,
+    });
+  } catch (e) {
+    res.send({ ok: false, error: e.message });
+  }
+  res.send({ ok: true });
+});
+
+router.post("/updatestatus", async (req, res) => {
+  //put
+  try {
+    let db = req.db;
+    await db("users").where({ email: req.body.email }).update({
+      userStatus: req.body.userStatus,
     });
   } catch (e) {
     res.send({ ok: false, error: e.message });

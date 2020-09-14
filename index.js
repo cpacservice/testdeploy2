@@ -64,13 +64,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api", require("./api"));
-
-app.listen(config.port, () => {
-  console.log("ready", config.port);
+const PORT = process.env.PORT || 7070;
+app.listen(PORT, () => {
+  console.log("ready", PORT, process.env.DB_HOST);
 });
-
-// setInterval(() => {
-//   let num = ('' + Math.floor(Math.random() * 1000000)).padStart(6, '0')
-//   console.log('lotto=', num)
-//   socket.publish('lotto', num)
-// }, 5000)

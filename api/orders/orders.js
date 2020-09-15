@@ -172,19 +172,18 @@ router.post("/check", async (req, res) => {
   //put
   let db = req.db;
   let rows;
-  let t;
+
   rows = await db("orders as o ")
     .where("o.orderid", "=", req.query.orderid)
     .select("o.netprice");
 
-  t = rows[0].netprice;
-
-  if (rows == "") {
+  if (rows == 0) {
     res.send({
       ok: false,
       test: "ไม่มีออเดอร์นี้",
     });
   } else {
+    let t = rows[0].netprice;
     res.send({
       ok: true,
       test: "มีออเดอร์นี้",

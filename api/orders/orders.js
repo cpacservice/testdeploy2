@@ -172,7 +172,13 @@ router.post("/check", async (req, res) => {
   //put
   let db = req.db;
   let rows;
-  rows = await db("orders as o ").where("o.orderid", "=", req.query.orderid);
+  let t;
+  rows = await db("orders as o ")
+    .where("o.orderid", "=", req.query.orderid)
+    .select("o.netprice");
+
+  t = rows[0].netprice;
+
   if (rows == "") {
     res.send({
       ok: false,
@@ -182,6 +188,7 @@ router.post("/check", async (req, res) => {
     res.send({
       ok: true,
       test: "มีออเดอร์นี้",
+      total: t,
     });
   }
 });

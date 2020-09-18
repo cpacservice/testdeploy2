@@ -23,9 +23,9 @@ router.get("/", async (req, res) => {
 
 router.post("/update", async (req, res) => {
   let db = req.db;
-  await db("ship_medthod").where({ shm_id: req.body.shm_id }).update({
-    shm_id: req.body.shm_id,
-    shm_name: req.body.shm_name,
+  await db("ship_medthod").where({ shm_id: req.body.shmId }).update({
+    shmId: req.body.shmId,
+    shmName: req.body.shmName,
   });
   res.send({ ok: true });
 });
@@ -34,7 +34,7 @@ router.post("/update", async (req, res) => {
 router.post("/delete", async (req, res) => {
   let db = req.db;
   await db("ship_medthod")
-    .where({ shm_id: req.body.shm_id })
+    .where({ shmId: req.body.shmId })
     .delete()
     .then(() => {
       res.send({ status: true });
@@ -46,8 +46,8 @@ router.post("/delete", async (req, res) => {
 router.post("/insert", async (req, res) => {
   let db = req.db;
   let ids = await db("ship_medthod").insert({
-    shm_id: req.body.shm_id,
-    shm_name: req.body.shm_name,
+    shmId: req.body.shmId,
+    shmName: req.body.shmName,
   });
   res.send({
     ok: true,

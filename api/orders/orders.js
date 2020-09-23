@@ -191,3 +191,18 @@ router.post("/check", async (req, res) => {
     });
   }
 });
+router.post("/showordernumber", async (req, res) => {
+  //put
+  let db = req.db;
+  let rows;
+
+  rows = await db("orders as o ")
+    .where("o.order_status", "=", "รอการชำระเงิน")
+    .where("o.userid", "=", req.query.userid)
+    .select("o.orderid");
+
+  res.send({
+    ok: true,
+    test: rows,
+  });
+});

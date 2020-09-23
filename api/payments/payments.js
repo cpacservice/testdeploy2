@@ -73,6 +73,17 @@ router.post("/", async (req, res) => {
   } catch (e) {
     res.send({ ok: false, error: e.message });
   }
+  let orderupdate;
+  try {
+    let db = req.db;
+    await db("orders").where({ orderid: req.body.orderid }).update({
+      orderStatus: status,
+    });
+
+    orderupdate;
+  } catch (e) {
+    res.send({ ok: false, error: e.message });
+  }
 });
 
 router.post("/update", async (req, res) => {
@@ -83,6 +94,15 @@ router.post("/update", async (req, res) => {
   await db("payments").where({ paymentid: req.body.paymentid }).update({
     paymentstatus: req.body.paymentstatus,
   });
+  if (req.body.paymentstatus == "สำเร็จ") {
+    await db("orders").where({ orderid: req.body.orderid }).update({
+      orderStatus: "กำลังจัดส่ง",
+    });
+  } else if (req.body.paymentstatus == "ไม่สำเร็จ") {
+    await db("orders").where({ orderid: req.body.orderid }).update({
+      orderStatus: "การชำระเงินไม่สำเร็จ",
+    });
+  }
 
   res.send({
     ok: true,

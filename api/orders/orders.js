@@ -199,8 +199,7 @@ router.post("/showordernumber", async (req, res) => {
   rows = await db("orders as o ")
     .where("o.order_status", "=", "รอการชำระเงิน")
     .where("o.userid", "=", req.query.userid)
-    .select("o.orderid")
-    .select("o.netprice");
+    .select("o.orderid");
   //add totle
   res.send({
     ok: true,

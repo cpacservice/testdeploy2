@@ -95,22 +95,16 @@ router.post("/update", async (req, res) => {
   await db("payments").where({ paymentid: req.body.paymentid }).update({
     paymentstatus: req.body.paymentstatus,
   });
-
-  try {
-    let db = req.db;
-    if (req.body.paymentstatus == "สำเร็จ")
-      await db("orders").where({ orderid: req.body.orderid }).update({
-        orderStatus: sending,
-      });
-    else if (req.body.paymentstatus == "ไม่สำเร็จ") {
-      await db("orders").where({ orderid: req.body.orderid }).update({
-        orderStatus: failpayment,
-      });
-    }
-  } catch (e) {
-    res.send({ ok: false, error: e.message });
+  let db = req.db;
+  if (req.body.paymentstatus === "สำเร็จ")
+    await db("orders").where({ orderid: req.body.orderid }).update({
+      orderStatus: sending,
+    });
+  else if (req.body.paymentstatus === "ไม่สำเร็จ") {
+    await db("orders").where({ orderid: req.body.orderid }).update({
+      orderStatus: failpayment,
+    });
   }
-
   res.send({
     ok: true,
     payments: p,

@@ -201,7 +201,7 @@ router.post("/showordernumber", async (req, res) => {
     .where("o.userid", "=", req.query.userid)
     .select("o.orderid")
     .select("o.netprice");
-
+  //add totle
   res.send({
     ok: true,
     orderid: rows,

@@ -35,7 +35,9 @@ router.get("/me", async (req, res) => {
     let rows;
     try {
       if (req.query.userid) {
-        rows = await db("orders as o").where("o.userid", "=", req.query.userid);
+        rows = await db("orders as o")
+          .join("payments as p", "p.orderid", "o.orderid")
+          .where("o.userid", "=", req.query.userid);
       } else {
         rows = await db("orders");
       }

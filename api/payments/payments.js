@@ -88,29 +88,30 @@ router.post("/", async (req, res) => {
 router.post("/update", async (req, res) => {
   //put
   let db = req.db;
-  let p;
-  let sending = "กำลังจัดส่ง";
-  let failpayment = "การชำระเงินไม่สำเร็จ";
+  let rows;
 
   await db("payments").where({ paymentid: req.body.paymentid }).update({
     paymentstatus: req.body.paymentstatus,
   });
-  // let db = req.db;
-  // if (req.body.paymentstatus === "สำเร็จ")
-  //   await db("orders").where({ orderid: req.body.orderid }).update({
-  //     orderStatus: sending,
-  //   });
-  // else if (req.body.paymentstatus === "ไม่สำเร็จ") {
-  //   await db("orders").where({ orderid: req.body.orderid }).update({
-  //     orderStatus: failpayment,
-  //   });
-
+  if (req.body.paymentstatus === "ไม่สำเร็จ") {
+    rows = await db("orders as o ")
+      .join("payments as p", "p.orderid", "o.orderid")
+      .where("p.paymentid", "=", req.body.paymentid)
+      .update({
+        orderStatus: "การรชำระเงินไม่สำเร็จ",
+      });
+  } else if (req.body.paymentstatus === "สำเร็จ") {
+    rows = await db("orders as o ")
+      .join("payments as p", "p.orderid", "o.orderid")
+      .where("p.paymentid", "=", req.body.paymentid)
+      .update({
+        orderStatus: "กำลังจัดส่ง",
+      });
+  }
   res.send({
     ok: true,
-    payments: p,
   });
 });
-
 router.post("/delete", async (req, res) => {
   let db = req.db;
   await db("payments")

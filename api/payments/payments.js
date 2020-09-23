@@ -53,7 +53,7 @@ router.get("/showpayment", async (req, res) => {
 //เมื่อกดยืนยันก็ค่อย insert ลง db
 router.post("/", async (req, res) => {
   let rows;
-  let status = "ยังไม่มีการชำระเงิน";
+  let status = "กำลังดำเนินการ";
   try {
     let db = req.db;
     rows = await db("payments").insert({

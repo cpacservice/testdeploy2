@@ -98,7 +98,7 @@ router.post("/update", async (req, res) => {
       .join("payments as p", "p.orderid", "o.orderid")
       .where("p.paymentid", "=", req.body.paymentid)
       .update({
-        orderStatus: "การรชำระเงินไม่สำเร็จ",
+        orderStatus: "การชำระเงินไม่สำเร็จ",
       });
   } else if (req.body.paymentstatus === "สำเร็จ") {
     rows = await db("orders as o ")

@@ -54,6 +54,7 @@ router.post("/update", async (req, res) => {
     weight: req.body.weight,
     length: req.body.length,
     width: req.body.width,
+    unit: req.body.unit,
   });
   res.send({ ok: true });
 });
@@ -98,6 +99,7 @@ router.post("/insert", async (req, res) => {
     weight: req.body.weight,
     length: req.body.length,
     width: req.body.width,
+    unit: req.body.unit,
   });
   res.send({
     ok: true,

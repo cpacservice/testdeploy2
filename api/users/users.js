@@ -98,6 +98,7 @@ router.post("/register", async (req, res) => {
     if (rows.length === 0) {
       //ตรวจจากความยาวแล้วไม่ซ้ำ
       let statususer = "user";
+      let active = "active";
       try {
         const hash = bcrypt.hashSync(req.body.password, 10); //เข้ารหัส
         let db = req.db;
@@ -111,6 +112,7 @@ router.post("/register", async (req, res) => {
           address: req.body.address,
           age: req.body.age,
           status: statususer,
+          userStatus: active,
         });
         return res.send({
           ok: true,
@@ -191,6 +193,7 @@ router.post("/update", async (req, res) => {
       phone: req.body.phone,
       address: req.body.address,
       age: req.body.age,
+      userStatus: req.body.userStatus,
     });
   } catch (e) {
     res.send({ ok: false, error: e.message });

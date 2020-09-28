@@ -149,3 +149,18 @@ router.post("/delete", async (req, res) => {
     })
     .catch((e) => res.send({ ok: false, error: e.message }));
 });
+
+router.post("/updatequantity", async (req, res) => {
+  //put
+  let db = req.db;
+  let carts;
+  await db("carts")
+    .where({ productid: req.body.productid, userid: req.body.userid })
+    .update({
+      quantity: req.body.quantity,
+    });
+  res.send({
+    ok: true,
+    carts: carts,
+  });
+});

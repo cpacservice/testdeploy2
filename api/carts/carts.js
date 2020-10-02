@@ -142,7 +142,7 @@ router.get("/cartlength", async (req, res) => {
 router.post("/delete", async (req, res) => {
   let db = req.db;
   await db("carts")
-    .where({ productid: req.body.productid })
+    .where({ productid: req.body.productid, userid: req.body.userid })
     .delete()
     .then(() => {
       res.send({ ok: true });
@@ -154,6 +154,7 @@ router.post("/updatequantity", async (req, res) => {
   //put
   let db = req.db;
   let carts;
+  // await db("products").where({ productid: req.body.productid }).update({
   await db("carts")
     .where({ productid: req.body.productid, userid: req.body.userid })
     .update({

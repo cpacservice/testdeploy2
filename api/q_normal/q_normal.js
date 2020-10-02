@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+var nodemailer = require("nodemailer");
 module.exports = router;
 
 router.get("/", async (req, res) => {
@@ -57,6 +58,21 @@ router.post("/delete", async (req, res) => {
 });
 
 router.post("/insert", async (req, res) => {
+  var transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "natthariknan@gmail.com",
+      pass: "0873574010",
+    },
+  });
+
+  var mailOptions = {
+    from: "natthariknan@gmail.com",
+    to: "6006021630016@fitm.kmutnb.ac.th",
+    subject: "Sending Email using Node.js",
+    text: "That was easy!",
+  };
+
   let db = req.db;
   let quanum;
   let active = "กำลังดำเนินการ";
@@ -87,6 +103,15 @@ router.post("/insert", async (req, res) => {
     Normal: ids,
     lastid: quanum,
   });
+  if (res.send.ok) {
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+  }
 });
 //   router.get("/search", async (req, res) => {
 //     // ใช้ async function

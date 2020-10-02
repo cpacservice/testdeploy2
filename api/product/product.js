@@ -72,21 +72,21 @@ router.post("/delete", async (req, res) => {
 });
 
 router.post("/insert", async (req, res) => {
-  if (
-    req.body.productname == null ||
-    req.body.productname == "" ||
-    req.body.unitprice == null ||
-    req.body.unitprice == "" ||
-    req.body.categoryid == null ||
-    req.body.categoryid == "" ||
-    req.body.productstatus == null ||
-    req.body.productstatus == ""
-  ) {
-    res.send({
-      ok: false,
-      message: "ไม่มีค่า",
-    });
-  }
+  // if (
+  //   req.body.productname == null ||
+  //   req.body.productname == "" ||
+  //   req.body.unitprice == null ||
+  //   req.body.unitprice == "" ||
+  //   req.body.categoryid == null ||
+  //   req.body.categoryid == "" ||
+  //   req.body.productstatus == null ||
+  //   req.body.productstatus == ""
+  // ) {
+  //   res.send({
+  //     ok: false,
+  //     message: "ไม่มีค่า",
+  //   });
+  // }
   let db = req.db;
   let ids = await db("products").insert({
     productname: req.body.productname,

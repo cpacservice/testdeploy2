@@ -159,7 +159,7 @@ router.get("/detail", async (req, res) => {
           cpacinside@scg.com
         </div>
       </div>
-      <h2>${p.productname}</h2>
+      <h2>${req.query.productname}</h2>
      `, // html body
       });
       console.log("Message sent: %s", infouser.messageId);

@@ -134,17 +134,15 @@ router.get("/detail", async (req, res) => {
     async function sendMail() {
       // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
       let transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 587,
-        secure: false, // true for 465, false for other ports
+        host: "smtp.mailtrap.io",
+        port: 2525,
         auth: {
-          // ข้อมูลการเข้าสู่ระบบ
-          user: "natthariknan@gmail.com", // email user ของเรา
-          pass: "0873574010", // email password
+          user: "6601684eadf74a",
+          pass: "956c84d61f5aa4",
         },
       });
       let infouser = await transporter.sendMail({
-        from: '"No reply 👻" <natthariknan@gmail.com>', // อีเมลผู้ส่ง
+        from: '"No reply 👻" <cpacservice-f27bbb@inbox.mailtrap.io>', // อีเมลผู้ส่ง
         to: `${req.body.email}`, // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
         subject: "Hello ✔", // หัวข้ออีเมล
         text: "ใบเสนอราคาของท่านกำลังดำเนินการ กรุณารอเจ้าหน้าที่ติดต่อกลับ", // plain text body
@@ -168,17 +166,15 @@ router.get("/detail", async (req, res) => {
     async function sendMailtoadmin() {
       // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
       let transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 587,
-        secure: false, // true for 465, false for other ports
+        host: "smtp.mailtrap.io",
+        port: 2525,
         auth: {
-          // ข้อมูลการเข้าสู่ระบบ
-          user: "natthariknan@gmail.com", // email user ของเรา
-          pass: "0873574010", // email password
+          user: "6601684eadf74a",
+          pass: "956c84d61f5aa4",
         },
       });
       let infoadmin = await transporter.sendMail({
-        from: '"No reply 👻" <natthariknan@gmail.com>', // อีเมลผู้ส่ง
+        from: '"No reply 👻" <cpacservice-f27bbb@inbox.mailtrap.io>', // อีเมลผู้ส่ง
         to: "natthariknan@gmail.com", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
         subject: "Hello ✔", // หัวข้ออีเมล
         text: "", // plain text body

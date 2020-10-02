@@ -104,6 +104,32 @@ router.post("/", async (req, res) => {
         .where("c.userid", "=", req.body.userid);
     });
     show = await db("order_detail");
+
+    res.send({
+      ok: true,
+      orderdetail: show,
+      lastesordernum: ordernum,
+    });
+  } catch (e) {
+    res.send({ ok: false, error: e.message });
+  }
+});
+
+//orderdetail
+router.get("/detail", async (req, res) => {
+  try {
+    let db = req.db;
+    let rows;
+    if (req.query.orderid) {
+      rows = await db("order_detail as od ")
+        .join("orders as o", "o.orderid", "od.orderid")
+        .join("products as p", "p.productid", "od.productid")
+        .join("users as u", "u.userid", "o.userid")
+        .join("ship_medthod as s", "s.shm_id", "o.ship_medthod")
+        .where("od.orderid", "=", req.query.orderid);
+    } else {
+      rows = await db("order_detail");
+    }
     async function sendMail() {
       // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
       let transporter = nodemailer.createTransport({
@@ -132,7 +158,7 @@ router.post("/", async (req, res) => {
           cpacinside@scg.com
         </div>
       </div>
-      <h2>${req.body.productname}</h2>
+      <h2>${p.productname}</h2>
      `, // html body
       });
       console.log("Message sent: %s", infouser.messageId);
@@ -155,38 +181,12 @@ router.post("/", async (req, res) => {
         to: "natthariknan@gmail.com", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
         subject: "Hello ✔", // หัวข้ออีเมล
         text: "", // plain text body
-        html: "<b>มีรายการใบขอเสนอราคาจาก" + `${req.body.qNormalName}` + "</b>", // html body
+        html: "<b>มีรายการใบขอเสนอราคาจาก" + `${u.username}` + "</b>", // html body
       });
       console.log("Message sent: %s", infoadmin.messageId);
     }
     sendMail().catch(console.error);
     sendMailtoadmin().catch(console.error);
-
-    res.send({
-      ok: true,
-      orderdetail: show,
-      lastesordernum: ordernum,
-    });
-  } catch (e) {
-    res.send({ ok: false, error: e.message });
-  }
-});
-
-//orderdetail
-router.get("/detail", async (req, res) => {
-  try {
-    let db = req.db;
-    let rows;
-    if (req.query.orderid) {
-      rows = await db("order_detail as od ")
-        .join("orders as o", "o.orderid", "od.orderid")
-        .join("products as p", "p.productid", "od.productid")
-        .join("users as u", "u.userid", "o.userid")
-        .join("ship_medthod as s", "s.shm_id", "o.ship_medthod")
-        .where("od.orderid", "=", req.query.orderid);
-    } else {
-      rows = await db("order_detail");
-    }
 
     res.send({
       ok: true, // ส่ง status

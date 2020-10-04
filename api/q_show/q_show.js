@@ -69,7 +69,7 @@ router.get("/normal/show", async (req, res) => {
           if (q.qNormalQuantity === 0) {
             tbody.push(
               `<tr>
-                <td style="border:1px solid black;">${q.productname}</td>
+                <td style="border:1px solid black;">${q.qNormalProductname}</td>
                 <td style=" text-align: center;border:1px solid black;">${q.qNormalSquaremetre}</td>
                 <td style=" text-align: center;border:1px solid black;">${q.qNormalUnittype}</td>
                 </tr>`
@@ -77,7 +77,7 @@ router.get("/normal/show", async (req, res) => {
           } else {
             tbody.push(
               `<tr>
-                <td style="border:1px solid black;">${q.productname}</td>
+                <td style="border:1px solid black;">${q.qNormalProductname}</td>
                 <td style=" text-align: center;border:1px solid black;">${q.qNormalQuantity}</td>
               <td style=" text-align: center;border:1px solid black;">${q.qNormalUnittype}</td>
                 </tr>`

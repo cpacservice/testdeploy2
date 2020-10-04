@@ -48,10 +48,10 @@ router.get("/normal/show", async (req, res) => {
       const tempText4 = `<div style="text-align: center;>
             <h4 :style="{ paddingTop: '20px' }">
                   <br><b>รายการขอเสนอราคาของท่าน</b></h4></div>`;
-      const tempText5 = `<div><h3 style="color : #3399FF" >กรุณาชำระสินค้าผ่านทางบัญชีธนาคาร <u>กสิกรไทย 020-108-9832 บจก. ผลิตภัณฑ์และวัตถุก่อสร้าง</u></h3><b><h4>หมายเหตุ</h4></b>
+      const tempText5 = `<div><b></b><h4>หมายเหตุ</h4></b>
       <ul>
-      <li>กรุณาชำระเงินภายใน 7 วัน หลังจากการสั่งซื้อสินค้า</li>
-      <li>ท่านสามารถแจ้งการชำระสินค้าได้ที่หน้าเว็บไซต์ เมนู "แจ้งการชำระเงิน"</li>
+      <li>กรุณารอการติดต่อกลับจากเจข้าหน้าที่ภายใน 3 วันทำการ</li>
+      <li>ท่านสามารถดูรายละเอียดการขอใบเสนอราคาของท่าน และ ติดตามสถานะได้ที่หน้าเว็บไซต์ เมนู 'การขอใบเสนอราคา'</li>
     </ul></div>`;
       function tableGenerator(qNormal) {
         const theader = `<tr style="background :#3399FF" >
@@ -88,7 +88,7 @@ router.get("/normal/show", async (req, res) => {
       }
       const html = `${tempText1}${tempText2}${tempText3}${tempText4}${tableGenerator(
         rows
-      )}`;
+      )}${tempText5}`;
 
       let infouser = await transporter.sendMail({
         from: '"No reply" <cpacservice-f27bbb@inbox.mailtrap.io>', // อีเมลผู้ส่ง

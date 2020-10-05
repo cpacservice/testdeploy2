@@ -98,7 +98,7 @@ router.post("/insert", async (req, res) => {
     .then(function (qNormalId) {
       quanum = qNormalId;
     });
-  rows = await db("company").where("qCompanyId", "=", quanum);
+  rows = await db("q_company").where("qCompanyId", "=", quanum);
   ///send Mail Space
   async function sendMail() {
     // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล

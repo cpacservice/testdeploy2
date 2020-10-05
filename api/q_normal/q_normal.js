@@ -94,18 +94,18 @@ router.post("/insert", async (req, res) => {
     async function sendMail() {
       // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
       let transporter = nodemailer.createTransport({
-        host: "smtp.mailtrap.io",
+        host: "Hotmail",
         port: 2525,
         auth: {
-          user: "2c642fdfcfd5a3",
-          pass: "a756a74cb04af0",
+          user: "cpacalertservice@hotmail.com",
+          pass: "cpac12345678",
         },
       });
       const tempText1 = `<div style="text-align: center;>
         <h4 :style="{ paddingTop: '20px' }">
               <b>บริษัท ผลิตภัณฑ์และวัตถุก่อสร้าง จำกัด</b></h4>`;
       const tempText2 = `<div>1516 ถ.ประชาราษฎร์ 1 แขวงวงศ์สว่าง เขตบางซื่อ กรุงเทพฯ 10800<br />โทร.02-555-5000 CPAC CALL CENTER 02-555-5555 Email:cpacinside@scg.com</div></div><br />`;
-      const tempText3 = `<div><b>เรียนคุณ</b> ${rows[0].qNormalName} <b>นามสกุล</b>  ${rows[0].qNormalLast} <br /><b>ที่อยู่จัดส่ง </b> ${rows[0].qNormalAddressDelivery} <br /><b>เบอร์โทรติดต่อ </b> ${rows[0].qNormalPhone}<br /><b>วันที่สั่งซื้อสินค้า </b> วัน${rows[0].qNormalDate}<br /><b>เวลาที่สั่งซื้อสินค้า </b> ${rows[0].qNormalTime} นาที<br /><b>หมายเลขขอใบเสนอราคาที่  </b> ${rows[0].qNormalId}<br /><b>ความต้องการขอใบกำกับภาษี :</b> ไม่มี</div>`;
+      const tempText3 = `<div><b>เรียนคุณ</b> ${rows[0].qNormalName} <b>นามสกุล</b>  ${rows[0].qNormalLast} <br /><b>ที่อยู่จัดส่ง </b> ${rows[0].qNormalAddressDelivery} <br /><b>เบอร์โทรติดต่อ </b> ${rows[0].qNormalPhone}<br /><b>วันที่สั่งซื้อสินค้า </b> วัน${rows[0].qNormalDate}<br /><b>เวลาที่สั่งซื้อสินค้า </b> ${rows[0].qNormalTime} นาที<br /><b>หมายเลขขอใบเสนอราคาที่  </b> ${rows[0].qNormalId}<br /><b>ความต้องการขอใบกำกับภาษี :</b> ไม่มี<br/><b>ความต้องการเพิ่มเติม :</b>${rows[0].qNormalInfo}</div>`;
       const tempText4 = `<div style="text-align: center;>
               <h4 :style="{ paddingTop: '20px' }">
                     <br><b>รายการขอเสนอราคาของท่าน</b></h4></div>`;
@@ -152,7 +152,7 @@ router.post("/insert", async (req, res) => {
       )}${tempText5}`;
 
       let infouser = await transporter.sendMail({
-        from: '"No reply" <cpacservice-f27bbb@inbox.mailtrap.io>', // อีเมลผู้ส่ง
+        from: '"No reply" <cpacalertservice@hotmail.com>', // อีเมลผู้ส่ง
         to: `${rows[0].qNormalEmail}`, // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
         subject: "เรียนลูกค้า CPAC", // หัวข้ออีเมล
         text: "ใบเสนอราคาของท่านกำลังดำเนินการ กรุณารอเจ้าหน้าที่ติดต่อกลับ", // plain text body
@@ -164,11 +164,11 @@ router.post("/insert", async (req, res) => {
     async function sendMailtoadmin() {
       // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
       let transporter = nodemailer.createTransport({
-        host: "smtp.mailtrap.io",
+        host: "Hotmail",
         port: 2525,
         auth: {
-          user: "2c642fdfcfd5a3",
-          pass: "a756a74cb04af0",
+          user: "cpacalertservice@hotmail.com",
+          pass: "cpac12345678",
         },
       });
       const tempText1 = `<div>ขณะนี้มีลูกค้าขอใบเสนอราคาหมายเลข  ${rows[0].qNormalId} กรุณาตรวจสอบและดำเนินการ โดยมีรายละเอียดดังนี้</div>`;
@@ -180,7 +180,7 @@ router.post("/insert", async (req, res) => {
         rows
       )}`;
       let infoadmin = await transporter.sendMail({
-        from: '"No reply" <cpacservice-f27bbb@inbox.mailtrap.io>', // อีเมลผู้ส่ง
+        from: '"No reply" <cpacalertservice@hotmail.com>', // อีเมลผู้ส่ง
         to: "s6006021630016@kmutnb.ac.th", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
         subject: "แจ้งเตือนAdmin ความต้องการขอใบเสนอราคา(ทั่วไป)", // หัวข้ออีเมล
         text: "", // plain text body

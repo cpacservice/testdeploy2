@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 module.exports = router;
 
+const nodemailer = require("nodemailer");
+
 router.get("/", async (req, res) => {
   // ใช้ async function
   try {
@@ -69,6 +71,7 @@ router.post("/delete", async (req, res) => {
 
 router.post("/insert", async (req, res) => {
   let db = req.db;
+  let rows;
   let quanum;
   let active = "กำลังดำเนินการ";
   let ids = await db("q_personal")
@@ -95,6 +98,7 @@ router.post("/insert", async (req, res) => {
     .then(function (qNormalId) {
       quanum = qNormalId;
     });
+  rows = await db("q_personal").where("qPersonalId", "=", quanum);
   ///send Mail Space
   async function sendMail() {
     // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล

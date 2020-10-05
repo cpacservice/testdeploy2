@@ -94,13 +94,17 @@ router.post("/insert", async (req, res) => {
     async function sendMail() {
       // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
       let transporter = nodemailer.createTransport({
-        service: "gmail",
-        type: "SMTP",
         host: "smtp.gmail.com",
-        secure: true,
         auth: {
+          type: "OAuth2",
           user: process.env.EMAIL,
-          pass: process.env.EMAILPASSWORD,
+          clientId:
+            "670982773280-ecf7cseejf4g0ql4rg8japnvoj68qicn.apps.googleusercontent.com",
+          clientSecret: "udQbuy0mdRP6L9-2II-0-AC5",
+          refreshToken:
+            "1//04IR0TGcVSELGCgYIARAAGAQSNwF-L9IrvdY5mNryq0yPp6TGt9tEDNtVn6C2wt5umUMLGfZ3Dqs6NiBn4SW0wdLa7VaRe8gBF5A",
+          accessToken:
+            "ya29.a0AfH6SMAQQbnYQp5vrIc8JND7YEWQvjcEJEvO5vT9ODlqgd7olDMwhv--rpEfFPd00TAZ6ApjCGnv2X0T5kXtZIvkAzbHPSV-eixcXEnNIYWHzWlE7oEI_FjBdbOU-1pH4ETvaX2uK3Kib3i8qpm1OPNrQZl27pPp8go",
         },
       });
       const tempText1 = `<div style="text-align: center;>
@@ -167,8 +171,6 @@ router.post("/insert", async (req, res) => {
       // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
       let transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
         auth: {
           type: "OAuth2",
           user: process.env.EMAIL,

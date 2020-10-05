@@ -217,7 +217,7 @@ router.get("/personal/show", async (req, res) => {
         <h4 :style="{ paddingTop: '20px' }">
               <b>บริษัท ผลิตภัณฑ์และวัตถุก่อสร้าง จำกัด</b></h4>`;
       const tempText2 = `<div>1516 ถ.ประชาราษฎร์ 1 แขวงวงศ์สว่าง เขตบางซื่อ กรุงเทพฯ 10800<br />โทร.02-555-5000 CPAC CALL CENTER 02-555-5555 Email:cpacinside@scg.com</div></div><br />`;
-      const tempText3 = `<div><b>เรียนคุณ</b> ${rows[0].qPersonalName} <b>นามสกุล</b>  ${rows[0].qPersonalLast} <br /><b>ที่อยู่จัดส่ง </b> ${rows[0].qPersonalAddressDelivery} <br /><b>ที่อยู่สำหรับออกใบกำกับภาษี </b> ${rows[0].qPersonalAddress}<br /><b>เลขบัตรประจำตัวประชาชน : </b> ${rows[0].qPersonalIdcard}<br /><b>เบอร์โทรติดต่อ </b> ${rows[0].qNormalPhone}<br /><b>วันที่สั่งซื้อสินค้า </b> วัน${rows[0].qNormalDate}<br /><b>เวลาที่สั่งซื้อสินค้า </b> ${rows[0].qNormalTime} นาที<br /><b>หมายเลขขอใบเสนอราคาที่  </b> ${rows[0].qNormalId}<br />ความต้องการขอใบกำกับภาษี : ออกในนามบุคคลธรรมดา</div>`;
+      const tempText3 = `<div><b>เรียนคุณ</b> ${rows[0].qPersonalName} <b>นามสกุล</b>  ${rows[0].qPersonalLast} <br /><b>ที่อยู่จัดส่ง </b> ${rows[0].qPersonalAddressDelivery} <br /><b>ที่อยู่สำหรับออกใบกำกับภาษี </b> ${rows[0].qPersonalAddress}<br /><b>เลขบัตรประจำตัวประชาชน : </b> ${rows[0].qPersonalIdcard}<br /><b>เบอร์โทรติดต่อ </b> ${rows[0].qNormalPhone}<br /><b>วันที่สั่งซื้อสินค้า </b> วัน${rows[0].qPersonalDate}<br /><b>เวลาที่สั่งซื้อสินค้า </b> ${rows[0].qPersonalTime} นาที<br /><b>หมายเลขขอใบเสนอราคาที่  </b> ${rows[0].qPersonalId}<br />ความต้องการขอใบกำกับภาษี : ออกในนามบุคคลธรรมดา</div>`;
       const tempText4 = `<div style="text-align: center;>
               <h4 :style="{ paddingTop: '20px' }">
                     <br><b>รายการขอเสนอราคาของท่าน</b></h4></div>`;

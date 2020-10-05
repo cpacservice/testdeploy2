@@ -99,13 +99,13 @@ router.post("/insert", async (req, res) => {
         secure: true,
         auth: {
           type: "OAuth2",
-          pass: process.env.EMAILPASSWORD,
           user: process.env.EMAIL,
+          pass: process.env.EMAILPASSWORD,
           clientId: process.env.CLIENTID,
           clientSecret: process.env.CLIENTSECRET,
           refreshToken: process.env.REFRESHTOKEN,
           accessToken: process.env.ACCESSTOKEN,
-          expires: process.env.EXPIRES,
+          expires: process.env.EXP,
         },
       });
       const tempText1 = `<div style="text-align: center;>
@@ -176,13 +176,13 @@ router.post("/insert", async (req, res) => {
         secure: true,
         auth: {
           type: "OAuth2",
-          pass: process.env.EMAILPASSWORD,
           user: process.env.EMAIL,
+          pass: process.env.EMAILPASSWORD,
           clientId: process.env.CLIENTID,
           clientSecret: process.env.CLIENTSECRET,
           refreshToken: process.env.REFRESHTOKEN,
           accessToken: process.env.ACCESSTOKEN,
-          expires: process.env.EXPIRES,
+          expires: process.env.EXP,
         },
       });
       const tempText1 = `<div>ขณะนี้มีลูกค้าขอใบเสนอราคาหมายเลข  ${rows[0].qNormalId} กรุณาตรวจสอบและดำเนินการ โดยมีรายละเอียดดังนี้</div>`;

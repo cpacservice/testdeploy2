@@ -62,10 +62,12 @@ router.post("/delete", async (req, res) => {
 
 router.post("/insert", async (req, res) => {
   try {
+    let test;
+    let rows;
     let db = req.db;
     let quanum;
     let active = "กำลังดำเนินการ";
-    let rows = await db("q_normal")
+    rows1 = await db("q_normal")
       .insert({
         qNormalName: req.body.qNormalName,
         qNormalUserid: req.body.qNormalUserid,
@@ -87,6 +89,7 @@ router.post("/insert", async (req, res) => {
       .then(function (qNormalId) {
         quanum = qNormalId;
       });
+    rows = await db("q_normal").where("qNormalId", "=", quanum);
     ///send Mail Space
     async function sendMail() {
       // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
@@ -102,7 +105,7 @@ router.post("/insert", async (req, res) => {
         <h4 :style="{ paddingTop: '20px' }">
               <b>บริษัท ผลิตภัณฑ์และวัตถุก่อสร้าง จำกัด</b></h4>`;
       const tempText2 = `<div>1516 ถ.ประชาราษฎร์ 1 แขวงวงศ์สว่าง เขตบางซื่อ กรุงเทพฯ 10800<br />โทร.02-555-5000 CPAC CALL CENTER 02-555-5555 Email:cpacinside@scg.com</div></div><br />`;
-      const tempText3 = `<div><b>เรียนคุณ</b> ${rows[0].qNormalName} <b>นามสกุล</b>  ${rows[0].qNormalLast} <br /><b>ที่อยู่จัดส่ง </b> ${rows[0].qNormalAddressDelivery} <br /><b>เบอร์โทรติดต่อ </b> ${rows[0].qNormalPhone}<br /><b>วันที่สั่งซื้อสินค้า </b> วัน${rows[0].qNormalDate}<br /><b>เวลาที่สั่งซื้อสินค้า </b> ${rows[0].qNormalTime} นาที<br /><b>หมายเลขขอใบเสนอราคาที่  </b> ${rows[0].qNormalId}<br />ความต้องการขอใบกำกับภาษี : ไม่มี</div>`;
+      const tempText3 = `<div><b>เรียนคุณ</b> ${rows[0].qNormalName} <b>นามสกุล</b>  ${rows[0].qNormalLast} <br /><b>ที่อยู่จัดส่ง </b> ${rows[0].qNormalAddressDelivery} <br /><b>เบอร์โทรติดต่อ </b> ${rows[0].qNormalPhone}<br /><b>วันที่สั่งซื้อสินค้า </b> วัน${rows[0].qNormalDate}<br /><b>เวลาที่สั่งซื้อสินค้า </b> ${rows[0].qNormalTime} นาที<br /><b>หมายเลขขอใบเสนอราคาที่  </b> ${rows[0].qNormalId}<br /><b>ความต้องการขอใบกำกับภาษี :</b> ไม่มี</div>`;
       const tempText4 = `<div style="text-align: center;>
               <h4 :style="{ paddingTop: '20px' }">
                     <br><b>รายการขอเสนอราคาของท่าน</b></h4></div>`;
@@ -116,7 +119,7 @@ router.post("/insert", async (req, res) => {
               <th style="border:1px solid black;" >สินค้า</th>
               <th style="border:1px solid black;">จำนวน</th>
               <th style="border:1px solid black;">หน่วย</th>
-  
+
               </tr>`;
         const tbody = [];
 
@@ -189,7 +192,7 @@ router.post("/insert", async (req, res) => {
               <th style="border:1px solid black;" >สินค้า</th>
               <th style="border:1px solid black;">จำนวน</th>
               <th style="border:1px solid black;">หน่วย</th>
-  
+
               </tr>`;
         const tbody = [];
 
@@ -222,7 +225,7 @@ router.post("/insert", async (req, res) => {
     sendMailtoadmin().catch(console.error);
     sendMail().catch(console.error);
 
-    ///sendMail Space
+    //sendMail Space
 
     res.send({
       ok: true,

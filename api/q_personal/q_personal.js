@@ -103,7 +103,7 @@ router.post("/insert", async (req, res) => {
   async function sendMail() {
     // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
     let transporter = nodemailer.createTransport({
-      service: "smtp.gmail.com",
+      service: "Gmail",
       auth: {
         user: process.env.EMAIL,
         pass: process.env.EMAILPASSWORD,
@@ -172,7 +172,7 @@ router.post("/insert", async (req, res) => {
   async function sendMailtoadmin() {
     // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
     let transporter = nodemailer.createTransport({
-      service: "smtp.gmail.com",
+      service: "Gmail",
       auth: {
         user: process.env.EMAIL,
         pass: process.env.EMAILPASSWORD,

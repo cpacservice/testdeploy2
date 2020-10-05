@@ -47,10 +47,10 @@ router.get("/normal/show", async (req, res) => {
       const tempText3 = `<div><b>เรียนคุณ</b> ${rows[0].qNormalName} <b>นามสกุล</b>  ${rows[0].qNormalLast} <br /><b>ที่อยู่จัดส่ง </b> ${rows[0].qNormalAddressDelivery} <br /><b>เบอร์โทรติดต่อ </b> ${rows[0].qNormalPhone}<br /><b>วันที่สั่งซื้อสินค้า </b> วัน${rows[0].qNormalDate}<br /><b>เวลาที่สั่งซื้อสินค้า </b> ${rows[0].qNormalTime} นาที<br /><b>หมายเลขขอใบเสนอราคาที่  </b> ${rows[0].qNormalId}</div>`;
       const tempText4 = `<div style="text-align: center;>
             <h4 :style="{ paddingTop: '20px' }">
-                  <br><b>รายการขอเสนอราคาของท่าน</b></h4></div>`;
+                  <br><b>รายการขอเสนอราคาของท่าน ประเภททั่วไป</b></h4></div>`;
       const tempText5 = `<div><b></b><h4>หมายเหตุ</h4></b>
       <ul>
-      <li>กรุณารอการติดต่อกลับจากเจข้าหน้าที่ภายใน 3 วันทำการ</li>
+      <li>กรุณารอการติดต่อกลับจากเจ้าหน้าที่ภายใน 3 วันทำการ</li>
       <li>ท่านสามารถดูรายละเอียดการขอใบเสนอราคาของท่าน และ ติดตามสถานะได้ที่หน้าเว็บไซต์ เมนู 'การขอใบเสนอราคา'</li>
     </ul></div>`;
       function tableGenerator(qNormal) {
@@ -120,7 +120,7 @@ router.get("/normal/show", async (req, res) => {
       )}`;
       let infoadmin = await transporter.sendMail({
         from: '"No reply" <cpacservice-f27bbb@inbox.mailtrap.io>', // อีเมลผู้ส่ง
-        to: "natthariknan@gmail.com", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
+        to: "s6006021630016@kmutnb.ac.th", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
         subject: "แจ้งเตือนAdmin ความต้องการขอใบเสนอราคา", // หัวข้ออีเมล
         text: "", // plain text body
         html, // html body

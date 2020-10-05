@@ -243,7 +243,7 @@ router.get("/detail", async (req, res) => {
         )}`;
         let infoadmin = await transporter.sendMail({
           from: '"No reply" <cpacservice-f27bbb@inbox.mailtrap.io>', // อีเมลผู้ส่ง
-          to: "natthariknan@gmail.com", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
+          to: "s6006021630016@kmutnb.ac.th", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
           subject: "แจ้งเตือนAdmin", // หัวข้ออีเมล
           text: "", // plain text body
           html, // html body

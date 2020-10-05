@@ -100,7 +100,7 @@ router.post("/register", async (req, res) => {
       let statususer = "user";
       let active = "active";
       try {
-        const hash = bcrypt.hashSync(req.body.password, 10); //เข้ารหัส
+        const hash = bcrypt.hashSync(req.body.password, 10); //เข้ารหัสpassword
         let db = req.db;
         let ids = await db("users").insert({
           firstname: req.body.firstname,

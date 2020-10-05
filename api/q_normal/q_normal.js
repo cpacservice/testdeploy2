@@ -99,7 +99,8 @@ router.post("/insert", async (req, res) => {
         secure: true,
         auth: {
           type: "OAuth2",
-          user: process.env.EMAIL,
+          user: "cpacservicealert@gmail.com",
+          pass: "cpac12345678",
           clientId:
             "670982773280-ecf7cseejf4g0ql4rg8japnvoj68qicn.apps.googleusercontent.com",
           clientSecret: "udQbuy0mdRP6L9-2II-0-AC5",
@@ -178,7 +179,8 @@ router.post("/insert", async (req, res) => {
         secure: true,
         auth: {
           type: "OAuth2",
-          user: process.env.EMAIL,
+          pass: "cpac12345678",
+          user: "cpacservicealert@gmail.com",
           clientId:
             "670982773280-ecf7cseejf4g0ql4rg8japnvoj68qicn.apps.googleusercontent.com",
           clientSecret: "udQbuy0mdRP6L9-2II-0-AC5",

@@ -103,11 +103,10 @@ router.post("/insert", async (req, res) => {
   async function sendMail() {
     // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
     let transporter = nodemailer.createTransport({
-      host: "smtp.mailtrap.io",
-      port: 2525,
+      service: "Gmail",
       auth: {
-        user: "2c642fdfcfd5a3",
-        pass: "a756a74cb04af0",
+        user: process.env.EMAIL,
+        pass: process.env.EMAILPASSWORD,
       },
     });
     const tempText1 = `<div style="text-align: center;>
@@ -173,11 +172,10 @@ router.post("/insert", async (req, res) => {
   async function sendMailtoadmin() {
     // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
     let transporter = nodemailer.createTransport({
-      host: "smtp.mailtrap.io",
-      port: 2525,
+      service: "Gmail",
       auth: {
-        user: "2c642fdfcfd5a3",
-        pass: "a756a74cb04af0",
+        user: process.env.EMAIL,
+        pass: process.env.EMAILPASSWORD,
       },
     });
     const tempText1 = `<div>ขณะนี้มีลูกค้าขอใบเสนอราคาหมายเลข  ${rows[0].qPersonalId} กรุณาตรวจสอบและดำเนินการ โดยมีรายละเอียดดังนี้</div>`;

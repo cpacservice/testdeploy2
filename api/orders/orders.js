@@ -133,10 +133,18 @@ router.get("/detail", async (req, res) => {
       async function sendMail() {
         // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
         let transporter = nodemailer.createTransport({
-          service: "Gmail",
+          host: "smtp.gmail.com",
+          port: 465,
+          secure: true,
           auth: {
+            type: "OAuth2",
             user: process.env.EMAIL,
             pass: process.env.EMAILPASSWORD,
+            clientId: process.env.CLIENTID,
+            clientSecret: process.env.CLIENTSECRET,
+            refreshToken: process.env.REFRESHTOKEN,
+            accessToken: process.env.ACCESSTOKEN,
+            expires: process.env.EXP,
           },
         });
         const tempText1 = `<div style="text-align: center;>

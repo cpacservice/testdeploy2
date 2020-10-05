@@ -284,7 +284,7 @@ router.get("/personal/show", async (req, res) => {
         },
       });
       const tempText1 = `<div>ขณะนี้มีลูกค้าขอใบเสนอราคาหมายเลข  ${rows[0].qPersonalId} กรุณาตรวจสอบและดำเนินการ โดยมีรายละเอียดดังนี้</div>`;
-      const tempText2 = `<div><b>ชื่อลูกค้า คุณ</b> ${rows[0].qPersonalName} <b>นามสกุล</b>  ${rows[0].qPersonalLast} <br /><b>ที่อยู่จัดส่ง </b> ${rows[0].qPersonalAddressDelivery} <br /><b>เบอร์โทรติดต่อ </b> ${rows[0].qPersonalPhone}<br /><b>วันที่สั่งซื้อสินค้า </b> วัน${rows[0].qPersonalDate}<br /><b>เวลาที่สั่งซื้อสินค้า </b> ${rows[0].qPersonalTime} นาที<br /><b>หมายเลขขอใบเสนอราคาที่  </b> ${rows[0].qPersonalId}<br /><b>ความต้องการออกใบกำกับภาษี :   </b> ออกในนามบุคคลธรรมดา</div>`;
+      const tempText2 = `<div><b>ชื่อลูกค้า คุณ</b> ${rows[0].qPersonalName} <b>นามสกุล</b>  ${rows[0].qPersonalLast} <br /><b>ที่อยู่จัดส่ง </b> ${rows[0].qPersonalAddressDelivery}  <br /><b>ที่อยู่สำหรับออกใบกำกับภาษี </b> ${rows[0].qPersonalAddress}<br /><b>เบอร์โทรติดต่อ </b> ${rows[0].qPersonalPhone}<br /><b>วันที่สั่งซื้อสินค้า </b> วัน${rows[0].qPersonalDate}<br /><b>เวลาที่สั่งซื้อสินค้า </b> ${rows[0].qPersonalTime} นาที<br /><b>หมายเลขขอใบเสนอราคาที่  </b> ${rows[0].qPersonalId}<br /><b>ความต้องการออกใบกำกับภาษี :   </b> ออกในนามบุคคลธรรมดา</div>`;
       const tempText3 = `<div style="text-align: center;>
               <h4 :style="{ paddingTop: '20px' }">
                     <br><b>รายละเอียดการสั่งสินค้า</b></h4></div>`;

@@ -94,7 +94,7 @@ router.post("/insert", async (req, res) => {
     async function sendMail() {
       // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
       let transporter = nodemailer.createTransport({
-        host: "Hotmail",
+        host: "smtp-mail.outlook.com",
         port: 2525,
         auth: {
           user: "cpacalertservice@hotmail.com",
@@ -164,7 +164,7 @@ router.post("/insert", async (req, res) => {
     async function sendMailtoadmin() {
       // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
       let transporter = nodemailer.createTransport({
-        host: "Hotmail",
+        host: "smtp-mail.outlook.com",
         port: 2525,
         auth: {
           user: "cpacalertservice@hotmail.com",

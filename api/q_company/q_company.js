@@ -81,6 +81,7 @@ router.post("/insert", async (req, res) => {
       qCompanyLast: req.body.qCompanyLast,
       qCompanyPhone: req.body.qCompanyPhone,
       qCompanyEmail: req.body.qCompanyEmail,
+      qCompanyTax: req.body.qCompanyTax,
       qCompanyCompanyname: req.body.qCompanyCompanyname,
       qCompanyCompanyid: req.body.qCompanyCompanyid,
       qCompanyAddressDelivery: req.body.qCompanyAddressDelivery,

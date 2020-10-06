@@ -258,7 +258,6 @@ router.post("/forgetpassword", async (req, res) => {
     });
     res.send({
       ok: true,
-      resetLink: rowupdate[0].resetLink,
     });
     async function sendMail() {
       let transporter = nodemailer.createTransport({

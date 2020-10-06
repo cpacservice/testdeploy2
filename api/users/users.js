@@ -256,6 +256,10 @@ router.post("/forgetpassword", async (req, res) => {
     rowupdate = await db("users").where({ email: req.body.email }).update({
       resetLink: token,
     });
+    res.send({
+      ok: true,
+      resetLink: rowupdate[0].resetLink,
+    });
     async function sendMail() {
       let transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",

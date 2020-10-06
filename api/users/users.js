@@ -281,7 +281,7 @@ router.post("/forgetpassword", async (req, res) => {
         to: email, // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
         subject: "แจ้งการรีเซ็ท", // หัวข้ออีเมล
         text: "", // plain text body
-        html: `<a href=http://localhost:3000/users/resetpassword?token=${token} >คลิกที่นี่</a>`, // html body
+        html: `<a href=http://localhost:3000/users/resetpassword?token=${linklocal} >คลิกที่นี่</a>`, // html body
       });
       console.log("Message sent: %s", infouser.messageId);
     }
@@ -293,7 +293,6 @@ router.post("/resetpassword", async (req, res) => {
   let db = req.db;
   let rows;
   let newPass = req.body.newPass;
-  let rowupadte;
   let token = req.body.token;
 
   rows = await db("users").where({ resetLink: token });

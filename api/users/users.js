@@ -292,7 +292,7 @@ router.post("/resetpassword", async (req, res) => {
   let rowupadte;
   let token = req.body.token;
 
-  rows = await db("users").where(resetLink, "=", req.body.token);
+  rows = await db("users").where({ resetLink: req.body.token });
   if (rows == 0) {
     res.send({
       ok: false,

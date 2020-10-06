@@ -52,6 +52,7 @@ router.post("/update", async (req, res) => {
     qCompanyUnittype: req.body.qCompanyUnittype,
     qCompanySquaremetre: req.body.qCompanySquaremetre,
     qCompanyDate: req.body.qCompanyDate,
+    qCompanyTax: req.body.qCompanyTax,
     qCompanyTime: req.body.qCompanyTime,
     qCompanyStatus: req.body.qCompanyStatus,
   });

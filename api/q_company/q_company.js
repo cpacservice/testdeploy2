@@ -36,26 +36,33 @@ router.get("/", async (req, res) => {
 
 router.post("/update", async (req, res) => {
   let db = req.db;
-  await db("q_company").where({ qCompanyId: req.body.qCompanyId }).update({
-    qCompanyName: req.body.qCompanyName,
-    qCompanyUserid: req.body.qCompanyUserid,
-    qCompanyLast: req.body.qCompanyLast,
-    qCompanyPhone: req.body.qCompanyPhone,
-    qCompanyEmail: req.body.qCompanyEmail,
-    qCompanyCompanyname: req.body.qCompanyCompanyname,
-    qCompanyCompanyid: req.body.qCompanyCompanyid,
-    qCompanyAddressDelivery: req.body.qCompanyAddressDelivery,
-    qCompanyAddress: req.body.qCompanyAddress,
-    qCompanyProductname: req.body.qCompanyProductname,
-    qCompanyProductid: req.body.qCompanyProductid,
-    qCompanyQuantity: req.body.qCompanyQuantity,
-    qCompanyUnittype: req.body.qCompanyUnittype,
-    qCompanySquaremetre: req.body.qCompanySquaremetre,
-    qCompanyDate: req.body.qCompanyDate,
-    qCompanyTime: req.body.qCompanyTime,
-    qCompanyStatus: req.body.qCompanyStatus,
-  });
-  res.send({ ok: true });
+  try {
+    await db("q_company").where({ qCompanyId: req.body.qCompanyId }).update({
+      qCompanyName: req.body.qCompanyName,
+      qCompanyUserid: req.body.qCompanyUserid,
+      qCompanyLast: req.body.qCompanyLast,
+      qCompanyPhone: req.body.qCompanyPhone,
+      qCompanyEmail: req.body.qCompanyEmail,
+      qCompanyCompanyname: req.body.qCompanyCompanyname,
+      qCompanyCompanyid: req.body.qCompanyCompanyid,
+      qCompanyAddressDelivery: req.body.qCompanyAddressDelivery,
+      qCompanyAddress: req.body.qCompanyAddress,
+      qCompanyProductname: req.body.qCompanyProductname,
+      qCompanyProductid: req.body.qCompanyProductid,
+      qCompanyQuantity: req.body.qCompanyQuantity,
+      qCompanyUnittype: req.body.qCompanyUnittype,
+      qCompanySquaremetre: req.body.qCompanySquaremetre,
+      qCompanyDate: req.body.qCompanyDate,
+      qCompanyTax: req.body.qCompanyTax,
+      qCompanyTime: req.body.qCompanyTime,
+      qCompanyStatus: req.body.qCompanyStatus,
+    });
+    res.send({
+      ok: true,
+    });
+  } catch (e) {
+    res.send({ ok: false, error: e.message });
+  }
 });
 
 router.post("/delete", async (req, res) => {
@@ -81,6 +88,7 @@ router.post("/insert", async (req, res) => {
       qCompanyLast: req.body.qCompanyLast,
       qCompanyPhone: req.body.qCompanyPhone,
       qCompanyEmail: req.body.qCompanyEmail,
+      qCompanyTax: req.body.qCompanyTax,
       qCompanyCompanyname: req.body.qCompanyCompanyname,
       qCompanyCompanyid: req.body.qCompanyCompanyid,
       qCompanyAddressDelivery: req.body.qCompanyAddressDelivery,

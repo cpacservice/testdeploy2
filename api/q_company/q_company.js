@@ -194,7 +194,8 @@ router.post("/insert", async (req, res) => {
     const html = `${tempText1}${tempText2}${tempText3}${tableGenerator(rows)}`;
     let infoadmin = await transporter.sendMail({
       from: '"No reply" <cpacservice-f27bbb@inbox.mailtrap.io>', // อีเมลผู้ส่ง
-      to: "s6006021630016@kmutnb.ac.th", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
+      to: "s6006021630016@kmutnb.ac.th,saharatl@scg.com,nisira@scg.com", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
+      // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
       subject: "แจ้งเตือนAdmin ความต้องการขอใบเสนอราคา(ในนามบริษัท)", // หัวข้ออีเมล
       text: "", // plain text body
       html, // html body

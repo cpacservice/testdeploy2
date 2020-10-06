@@ -57,6 +57,9 @@ router.post("/update", async (req, res) => {
       qCompanyTime: req.body.qCompanyTime,
       qCompanyStatus: req.body.qCompanyStatus,
     });
+    res.send({
+      ok: true,
+    });
   } catch (e) {
     res.send({ ok: false, error: e.message });
   }

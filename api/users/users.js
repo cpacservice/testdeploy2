@@ -291,20 +291,25 @@ router.post("/resetpassword", async (req, res) => {
   let newPass = req.body.newPass;
   let rowupadte;
   let token = req.body.token;
-
-  rows = await db("users").where({ resetLink: req.body.token });
-  if (rows == 0) {
-    res.send({
-      ok: false,
-    });
-  } else {
-    const hash = bcrypt.hashSync(newPass, 10);
-    rowupadte = await db("users").where({ resetLink: token }).update({
-      password: hash,
-    });
-    res.send({
-      ok: true,
-      response: "เปลียนรหัสผ่านสำเร็จ",
-    });
+  try {
+    rows = await db("users").where({ resetLink: req.body.token });
+    if (rows == 0) {
+      res.send({
+        ok: false,
+      });
+    } else {
+      const hash = bcrypt.hashSync(req.body.newPass, 10);
+      rowupadte = await db("users")
+        .where({ resetLink: req.body.token })
+        .update({
+          password: hash,
+        });
+      res.send({
+        ok: true,
+        response: "เปลียนรหัสผ่านสำเร็จ",
+      });
+    }
+  } catch (e) {
+    res.send({ ok: false, error: e.message });
   }
 });

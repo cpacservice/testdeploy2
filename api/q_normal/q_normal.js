@@ -74,7 +74,7 @@ router.post("/insert", async (req, res) => {
         qNormalLast: req.body.qNormalLast,
         qNormalPhone: req.body.qNormalPhone,
         qNormalEmail: req.body.qNormalEmail,
-        qNormalInfo: req.body.qNormalNormalid,
+        qNormalInfo: req.body.qNormalInfo,
         qNormalAddressDelivery: req.body.qNormalAddressDelivery,
         qNormalProductname: req.body.qNormalProductname,
         qNormalProductid: req.body.qNormalProductid,

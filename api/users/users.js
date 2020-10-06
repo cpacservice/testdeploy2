@@ -4,6 +4,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 module.exports = router;
+const nodemailer = require("nodemailer");
+let linklocal;
 
 router.post("/login", async (req, res) => {
   let db = req.db;
@@ -217,4 +219,92 @@ router.post("/updatestatus", async (req, res) => {
     res.send({ ok: false, error: e.message });
   }
   res.send({ ok: true });
+});
+
+router.post("/forgetpassword", async (req, res) => {
+  // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
+
+  const email = req.body.email;
+  let db = req.db;
+  let rows;
+  let rowupdate;
+
+  rows = await db("users").where({ email: req.body.email });
+  if (rows == 0) {
+    res.send({
+      ok: false,
+      user: "have no this email",
+    });
+  } else {
+    res.send({
+      ok: true,
+    });
+    const token = jwt.sign(
+      {
+        email: rows[0].email,
+        fisrtname: rows[0].firstname,
+        lastname: rows[0].lastname,
+        gender: rows[0].gender,
+        status: rows[0].status,
+      },
+      process.env.RESET_JWT_KEY,
+      {
+        expiresIn: "20m",
+      }
+    );
+    linklocal = token;
+    rowupdate = await db("users").where({ email: req.body.email }).update({
+      resetLink: token,
+    });
+    async function sendMail() {
+      let transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+          type: "OAuth2",
+          user: process.env.EMAIL,
+          pass: process.env.EMAILPASSWORD,
+          clientId: process.env.CLIENTID,
+          clientSecret: process.env.CLIENTSECRET,
+          refreshToken: process.env.REFRESHTOKEN,
+          accessToken: process.env.ACCESSTOKEN,
+          expires: process.env.EXP,
+        },
+      });
+      let infouser = await transporter.sendMail({
+        from: '"No reply" <cpacservice-f27bbb@inbox.mailtrap.io>', // อีเมลผู้ส่ง
+        to: email, // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
+        subject: "แจ้งการรีเซ็ท", // หัวข้ออีเมล
+        text: "", // plain text body
+        html: `<a href=http://localhost:3000/users/resetpassword?token=${token} >คลิกที่นี่</a>`, // html body
+      });
+      console.log("Message sent: %s", infouser.messageId);
+    }
+    sendMail().catch(console.error);
+  }
+});
+
+router.post("/resetpassword", async (req, res) => {
+  let db = req.db;
+  let rows;
+  let newPass = req.body.newPass;
+  let rowupadte;
+  let token = req.body.token;
+
+  rows = await db("users").where({ resetLink: token });
+  if (rows == 0) {
+    res.send({
+      ok: false,
+    });
+  } else {
+    const hash = bcrypt.hashSync(newPass, 10);
+    rowupadte = await db("users").where({ resetLink: token }).update({
+      password: hash,
+    });
+    res.send({
+      ok: true,
+      response: "เปลียนรหัสผ่านสำเร็จ",
+    });
+  }
 });

@@ -221,9 +221,6 @@ router.post("/", async (req, res) => {
           ""
         )}</table>`;
       }
-      const html = `${tempText1}${tempText2}${tempText3}${tempText4}${tableGenerator(
-        rows
-      )}${tempText5}`;
     }
 
     sendMailtoadmin().catch(console.error);

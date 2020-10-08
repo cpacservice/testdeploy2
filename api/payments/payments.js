@@ -110,7 +110,7 @@ router.post("/", async (req, res) => {
       const tempText4 = `<div style="text-align: center;>
                 <h4 :style="{ paddingTop: '20px' }">
                       <br><b>แจ้งเตือนการชำระเงินของท่าน</b></h4></div>`;
-      const image = `<div><u><b>หลักฐานการโอน</b></u><br ><a href="${rows.paymentImage}">คลิกที่นี่</a></div>`;
+      const image = `<div><u><b>หลักฐานการโอน</b></u><br ><a href="${rows[0].paymentImage}">คลิกที่นี่</a></div>`;
       const tempText5 = `<div><b></b><h4>หมายเหตุ</h4></b>
           <ul>
           <li>กรุณารอการติดต่อกลับจากเจ้าหน้าที่ภายใน 3 วันทำการ</li>
@@ -181,9 +181,10 @@ router.post("/", async (req, res) => {
       const tempText3 = `<div style="text-align: center;>
                   <h4 :style="{ paddingTop: '20px' }">
                         <br><b>รายละเอียดการชำระเงิน</b></h4></div>`;
+      const image = `<div><u><b>หลักฐานการโอน</b></u><br ><a href="${rows[0].paymentImage}">คลิกที่นี่</a></div>`;
       const html = `${tempText1}${tempText2}${tempText3}${tableGenerator(
         rows
-      )}`;
+      )}${image}`;
       let infoadmin = await transporter.sendMail({
         from: '"No reply" <cpacservice-f27bbb@inbox.mailtrap.io>', // อีเมลผู้ส่ง
         to: "s6006021630016@kmutnb.ac.th", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
@@ -199,7 +200,7 @@ router.post("/", async (req, res) => {
                 <th style="border:1px solid black;">ชื่อที่แจ้งชำระ</th>
                 <th style="border:1px solid black;">ธนาคารที่ชำระ</th>
                 <th style="border:1px solid black;">ยอดชำระ</th>
-                <th style="border:1px solid black;">หลักฐานการชำระเงิน</th>
+
                 <th style="border:1px solid black;">สถานะการชำระเงิน</th>
 
                 </tr>`;
@@ -212,7 +213,7 @@ router.post("/", async (req, res) => {
                     <td style=" text-align: center;border:1px solid black;">${payment.transferName}</td>
                     <td style=" text-align: center;border:1px solid black;">${payment.bankName}</td>
                     <td style=" text-align: center;border:1px solid black;">${payment.totalprice}</td>
-                    <td style=" text-align: center;border:1px solid black;"><img height="150px" width="100px" src="${payment.paymentImage}"/></td>
+                
                     <td style=" text-align: center;border:1px solid black;">${payment.paymentstatus}</td>
                     </tr>`
           );

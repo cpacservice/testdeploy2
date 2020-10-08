@@ -83,80 +83,80 @@ router.post("/", async (req, res) => {
       .join("bank_account as b", "b.bankNum", "p.banknum")
       .where("p.paymentid", "=", lastid);
 
-    //join ตารางเพื่อดึงค่า email
-    // ///send Mail Space
-    // async function sendMail() {
-    //   // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
-    //   let transporter = nodemailer.createTransport({
-    //     host: "smtp.gmail.com",
-    //     port: 465,
-    //     secure: true,
-    //     auth: {
-    //       type: "OAuth2",
-    //       user: process.env.EMAIL,
-    //       pass: process.env.EMAILPASSWORD,
-    //       clientId: process.env.CLIENTID,
-    //       clientSecret: process.env.CLIENTSECRET,
-    //       refreshToken: process.env.REFRESHTOKEN,
-    //       accessToken: process.env.ACCESSTOKEN,
-    //       expires: process.env.EXP,
-    //     },
-    //   });
-    //   const tempText1 = `<div style="text-align: center;>
-    //       <h4 :style="{ paddingTop: '20px' }">
-    //             <b>บริษัท ผลิตภัณฑ์และวัตถุก่อสร้าง จำกัด</b></h4>`;
-    //   const tempText2 = `<div>1516 ถ.ประชาราษฎร์ 1 แขวงวงศ์สว่าง เขตบางซื่อ กรุงเทพฯ 10800<br />โทร.02-555-5000 CPAC CALL CENTER 02-555-5555 Email:cpacinside@scg.com</div></div><br />`;
-    //   const tempText3 = `<div><b>เรียนคุณ</b> ${rows[0].name} <b>นามสกุล</b>  ${rows[0].lastname} <br /></div>`;
-    //   const tempText4 = `<div style="text-align: center;>
-    //             <h4 :style="{ paddingTop: '20px' }">
-    //                   <br><b>แจ้งเตือนการชำระเงินของท่าน</b></h4></div>`;
-    //   const tempText5 = `<div><b></b><h4>หมายเหตุ</h4></b>
-    //       <ul>
-    //       <li>กรุณารอการติดต่อกลับจากเจ้าหน้าที่ภายใน 3 วันทำการ</li>
-    //       <li>ท่านสามารถดูรายละเอียดการขำระเงินของท่าน และ ติดตามสถานะได้ที่หน้าเว็บไซต์ เมนู 'การซื้อของฉัน'</li>
-    //     </ul></div>`;
-    //   function tableGenerator(payments) {
-    //     const theader = `<tr style="background :#3399FF" >
-    //             <th style="border:1px solid black;" >หมายเลขออเดอร์</th>
-    //             <th style="border:1px solid black;">ชื่อที่แจ้งชำระ</th>
-    //             <th style="border:1px solid black;">ธนาคารที่ชำระ</th>
-    //             <th style="border:1px solid black;">ยอดชำระ</th>
-    //             <th style="border:1px solid black;">หลักฐานการชำระเงิน</th>
-    //             <th style="border:1px solid black;">สถานะการชำระเงิน</th>
+    join ตารางเพื่อดึงค่า email
+    ///send Mail Space
+    async function sendMail() {
+      // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
+      let transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+          type: "OAuth2",
+          user: process.env.EMAIL,
+          pass: process.env.EMAILPASSWORD,
+          clientId: process.env.CLIENTID,
+          clientSecret: process.env.CLIENTSECRET,
+          refreshToken: process.env.REFRESHTOKEN,
+          accessToken: process.env.ACCESSTOKEN,
+          expires: process.env.EXP,
+        },
+      });
+      const tempText1 = `<div style="text-align: center;>
+          <h4 :style="{ paddingTop: '20px' }">
+                <b>บริษัท ผลิตภัณฑ์และวัตถุก่อสร้าง จำกัด</b></h4>`;
+      const tempText2 = `<div>1516 ถ.ประชาราษฎร์ 1 แขวงวงศ์สว่าง เขตบางซื่อ กรุงเทพฯ 10800<br />โทร.02-555-5000 CPAC CALL CENTER 02-555-5555 Email:cpacinside@scg.com</div></div><br />`;
+      const tempText3 = `<div><b>เรียนคุณ</b> ${rows[0].name} <b>นามสกุล</b>  ${rows[0].lastname} <br /></div>`;
+      const tempText4 = `<div style="text-align: center;>
+                <h4 :style="{ paddingTop: '20px' }">
+                      <br><b>แจ้งเตือนการชำระเงินของท่าน</b></h4></div>`;
+      const tempText5 = `<div><b></b><h4>หมายเหตุ</h4></b>
+          <ul>
+          <li>กรุณารอการติดต่อกลับจากเจ้าหน้าที่ภายใน 3 วันทำการ</li>
+          <li>ท่านสามารถดูรายละเอียดการขำระเงินของท่าน และ ติดตามสถานะได้ที่หน้าเว็บไซต์ เมนู 'การซื้อของฉัน'</li>
+        </ul></div>`;
+      function tableGenerator(payments) {
+        const theader = `<tr style="background :#3399FF" >
+                <th style="border:1px solid black;" >หมายเลขออเดอร์</th>
+                <th style="border:1px solid black;">ชื่อที่แจ้งชำระ</th>
+                <th style="border:1px solid black;">ธนาคารที่ชำระ</th>
+                <th style="border:1px solid black;">ยอดชำระ</th>
+                <th style="border:1px solid black;">หลักฐานการชำระเงิน</th>
+                <th style="border:1px solid black;">สถานะการชำระเงิน</th>
 
-    //             </tr>`;
-    //     const tbody = [];
+                </tr>`;
+        const tbody = [];
 
-    //     for (const payment of payments) {
-    //       tbody.push(
-    //         `<tr>
-    //                 <td style="border:1px solid black;">${payment.orderid}</td>
-    //                 <td style=" text-align: center;border:1px solid black;">${payment.transferName}</td>
-    //                 <td style=" text-align: center;border:1px solid black;">${payment.bankName}</td>
-    //                 <td style=" text-align: center;border:1px solid black;">${payment.totalprice}</td>
-    //                 <td style=" text-align: center;border:1px solid black;"><img src="${payment.totalprice}"/></td>
-    //                 <td style=" text-align: center;border:1px solid black;">${payment.paymentstatus}</td>
-    //                 </tr>`
-    //       );
-    //     }
+        for (const payment of payments) {
+          tbody.push(
+            `<tr>
+                    <td style="border:1px solid black;">${payment.orderid}</td>
+                    <td style=" text-align: center;border:1px solid black;">${payment.transferName}</td>
+                    <td style=" text-align: center;border:1px solid black;">${payment.bankName}</td>
+                    <td style=" text-align: center;border:1px solid black;">${payment.totalprice}</td>
+                    <td style=" text-align: center;border:1px solid black;"><img src="${payment.totalprice}"/></td>
+                    <td style=" text-align: center;border:1px solid black;">${payment.paymentstatus}</td>
+                    </tr>`
+          );
+        }
 
-    //     return `<table style="width: 100%;  border-collapse: collapse; border:1px solid black;">${theader}${tbody.join(
-    //       ""
-    //     )}</table>`;
-    //   }
-    //   const html = `${tempText1}${tempText2}${tempText3}${tempText4}${tableGenerator(
-    //     rows
-    //   )}${tempText5}`;
+        return `<table style="width: 100%;  border-collapse: collapse; border:1px solid black;">${theader}${tbody.join(
+          ""
+        )}</table>`;
+      }
+      const html = `${tempText1}${tempText2}${tempText3}${tempText4}${tableGenerator(
+        rows
+      )}${tempText5}`;
 
-    //   let infouser = await transporter.sendMail({
-    //     from: '"No reply" <cpacservicealert@gmail.com>', // อีเมลผู้ส่ง
-    //     to: `${rows[0].email}`, // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
-    //     subject: "เรียนลูกค้า CPAC", // หัวข้ออีเมล
-    //     text: "การชำระเงินของท่านกำลังดำเนินการ", // plain text body
-    //     html, // html body
-    //   });
-    //   console.log("Message sent: %s", infouser.messageId);
-    // }
+      let infouser = await transporter.sendMail({
+        from: '"No reply" <cpacservicealert@gmail.com>', // อีเมลผู้ส่ง
+        to: `${rows[0].email}`, // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
+        subject: "เรียนลูกค้า CPAC", // หัวข้ออีเมล
+        text: "การชำระเงินของท่านกำลังดำเนินการ", // plain text body
+        html, // html body
+      });
+      console.log("Message sent: %s", infouser.messageId);
+    }
 
     // async function sendMailtoadmin() {
     //   // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล

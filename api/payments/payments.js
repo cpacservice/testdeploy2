@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+
+const nodemailer = require("nodemailer");
 module.exports = router;
 let ordernum;
 let cart;
@@ -141,7 +143,7 @@ router.post("/", async (req, res) => {
       )}${tempText5}`;
 
       let infouser = await transporter.sendMail({
-        from: '"No reply" <cpacservice-f27bbb@inbox.mailtrap.io>', // อีเมลผู้ส่ง
+        from: '"No reply" <cpacservicealert@gmail.com>', // อีเมลผู้ส่ง
         to: `${rows[0].email}`, // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
         subject: "เรียนลูกค้า CPAC", // หัวข้ออีเมล
         text: "การชำระเงินของท่านกำลังดำเนินการ", // plain text body

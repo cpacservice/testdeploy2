@@ -74,7 +74,8 @@ router.post("/", async (req, res) => {
     rows = await db("payments as p")
       .join("orders as o", "o.orderid", "p.orderid")
       .join("users as u", "u.userid", "o.userid")
-      .join("bank_account as b", "b.bankNum", "p.banknum");
+      .join("bank_account as b", "b.bankNum", "p.banknum")
+      .where("o.orderid", "=", req.body.orderid);
 
     //join ตารางเพื่อดึงค่า email
     // ///send Mail Space

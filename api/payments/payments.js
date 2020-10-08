@@ -106,7 +106,7 @@ router.post("/", async (req, res) => {
           <h4 :style="{ paddingTop: '20px' }">
                 <b>บริษัท ผลิตภัณฑ์และวัตถุก่อสร้าง จำกัด</b></h4>`;
       const tempText2 = `<div>1516 ถ.ประชาราษฎร์ 1 แขวงวงศ์สว่าง เขตบางซื่อ กรุงเทพฯ 10800<br />โทร.02-555-5000 CPAC CALL CENTER 02-555-5555 Email:cpacinside@scg.com</div></div><br />`;
-      const tempText3 = `<div><b>เรียนคุณ</b> ${rows[0].name} <b>นามสกุล</b>  ${rows[0].lastname} <br /></div>`;
+      const tempText3 = `<div><b>เรียนคุณ</b> ${rows[0].firstname} <b>นามสกุล</b>  ${rows[0].lastname} <br /></div>`;
       const tempText4 = `<div style="text-align: center;>
                 <h4 :style="{ paddingTop: '20px' }">
                       <br><b>แจ้งเตือนการชำระเงินของท่าน</b></h4></div>`;
@@ -158,66 +158,75 @@ router.post("/", async (req, res) => {
       console.log("Message sent: %s", infouser.messageId);
     }
 
-    // async function sendMailtoadmin() {
-    //   // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
-    //   let transporter = nodemailer.createTransport({
-    //     service: "Gmail",
-    //     auth: {
-    //       user: process.env.EMAIL,
-    //       pass: process.env.EMAILPASSWORD,
-    //     },
-    //   });
-    //   const tempText1 = `<div>ขณะนี้มีลูกค้าขอใบเสนอราคาหมายเลข  ${rows[0].qCompanyId} กรุณาตรวจสอบและดำเนินการ โดยมีรายละเอียดดังนี้</div>`;
-    //   const tempText2 = `<div><b>ชื่อลูกค้า คุณ</b> ${rows[0].qCompanyName} <b>นามสกุล</b>  ${rows[0].qCompanyLast} <br /><b>ที่อยู่จัดส่ง </b> ${rows[0].qCompanyAddressDelivery} <br /><b>ที่อยู่สำหรับออกใบกำกับภาษี </b> ${rows[0].qCompanyAddress}<br /><b>ชื่อบริษัท </b> ${rows[0].qCompanyCompanyname}<br /><b>หมายเลขสำนักงาน/สาขา</b>  ${rows[0].qCompanyCompanyid}<br /><b>เลขประจำตัวผู้เสียภาษีอากร </b> ${rows[0].qCompanyTax}<br /><b>เบอร์โทรติดต่อ </b> ${rows[0].qCompanyPhone}<br /><b>วันที่สั่งซื้อสินค้า </b> วัน${rows[0].qCompanyDate}<br /><b>เวลาที่สั่งซื้อสินค้า </b> ${rows[0].qCompanyTime} นาที<br /><b>หมายเลขขอใบเสนอราคาที่  </b> ${rows[0].qCompanyId}<br /><b>ความต้องการขอใบกำกับภาษี : </b> ออกในนามบริษัท</div>`;
-    //   const tempText3 = `<div style="text-align: center;>
-    //               <h4 :style="{ paddingTop: '20px' }">
-    //                     <br><b>รายละเอียดการสั่งสินค้า</b></h4></div>`;
-    //   const html = `${tempText1}${tempText2}${tempText3}${tableGenerator(rows)}`;
-    //   let infoadmin = await transporter.sendMail({
-    //     from: '"No reply" <cpacservice-f27bbb@inbox.mailtrap.io>', // อีเมลผู้ส่ง
-    //     to: "s6006021630016@kmutnb.ac.th,saharatl@scg.com,nisira@scg.com", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
-    //     // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
-    //     subject: "แจ้งเตือนAdmin ความต้องการขอใบเสนอราคา(ในนามบริษัท)", // หัวข้ออีเมล
-    //     text: "", // plain text body
-    //     html, // html body
-    //   });
-    //   console.log("Message sent: %s", infoadmin.messageId);
-    //   function tableGenerator(qNormal) {
-    //     const theader = `<tr style="background :#3399FF" >
-    //               <th style="border:1px solid black;" >สินค้า</th>
-    //               <th style="border:1px solid black;">จำนวน</th>
-    //               <th style="border:1px solid black;">หน่วย</th>
+    async function sendMailtoadmin() {
+      // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
+      let transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+          type: "OAuth2",
+          user: process.env.EMAIL,
+          pass: process.env.EMAILPASSWORD,
+          clientId: process.env.CLIENTID,
+          clientSecret: process.env.CLIENTSECRET,
+          refreshToken: process.env.REFRESHTOKEN,
+          accessToken: process.env.ACCESSTOKEN,
+          expires: process.env.EXP,
+        },
+      });
+      const tempText1 = `<div>ขณะนี้มีลูกค้าได้ทำการชำระเงิน สำหรับหมายเลขออเดอร์ ${rows[0].orderid} กรุณาตรวจสอบและดำเนินการ โดยมีรายละเอียดดังนี้</div>`;
+      const tempText2 = `<div><b>ชื่อลูกค้า คุณ</b> ${rows[0].firstname} <b>นามสกุล</b>  ${rows[0].lastname} </div>`;
+      const tempText3 = `<div style="text-align: center;>
+                  <h4 :style="{ paddingTop: '20px' }">
+                        <br><b>รายละเอียดการชำระเงิน</b></h4></div>`;
+      const html = `${tempText1}${tempText2}${tempText3}${tableGenerator(
+        rows
+      )}`;
+      let infoadmin = await transporter.sendMail({
+        from: '"No reply" <cpacservice-f27bbb@inbox.mailtrap.io>', // อีเมลผู้ส่ง
+        to: "s6006021630016@kmutnb.ac.th", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
+        // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
+        subject: `แจ้งการชำระเงินออเดอร์ ${rows[0].orderid}`, // หัวข้ออีเมล
+        text: "", // plain text body
+        html, // html body
+      });
+      console.log("Message sent: %s", infoadmin.messageId);
+      function tableGenerator(payments) {
+        const theader = `<tr style="background :#3399FF" >
+                <th style="border:1px solid black;" >หมายเลขออเดอร์</th>
+                <th style="border:1px solid black;">ชื่อที่แจ้งชำระ</th>
+                <th style="border:1px solid black;">ธนาคารที่ชำระ</th>
+                <th style="border:1px solid black;">ยอดชำระ</th>
+                <th style="border:1px solid black;">หลักฐานการชำระเงิน</th>
+                <th style="border:1px solid black;">สถานะการชำระเงิน</th>
 
-    //               </tr>`;
-    //     const tbody = [];
+                </tr>`;
+        const tbody = [];
 
-    //     for (const q of qNormal) {
-    //       if (q.qCompanyQuantity === 0) {
-    //         tbody.push(
-    //           `<tr>
-    //                   <td style="border:1px solid black;">${q.qCompanyProductname}</td>
-    //                   <td style=" text-align: center;border:1px solid black;">${q.qCompanySquaremetre}</td>
-    //                   <td style=" text-align: center;border:1px solid black;">${q.qCompanyUnittype}</td>
-    //                   </tr>`
-    //         );
-    //       } else {
-    //         tbody.push(
-    //           `<tr>
-    //                   <td style="border:1px solid black;">${q.qCompanyProductname}</td>
-    //                   <td style=" text-align: center;border:1px solid black;">${q.qCompanyQuantity}</td>
-    //                 <td style=" text-align: center;border:1px solid black;">${q.qCompanyUnittype}</td>
-    //                   </tr>`
-    //         );
-    //       }
-    //     }
+        for (const payment of payments) {
+          tbody.push(
+            `<tr>
+                    <td style="border:1px solid black;">${payment.orderid}</td>
+                    <td style=" text-align: center;border:1px solid black;">${payment.transferName}</td>
+                    <td style=" text-align: center;border:1px solid black;">${payment.bankName}</td>
+                    <td style=" text-align: center;border:1px solid black;">${payment.totalprice}</td>
+                    <td style=" text-align: center;border:1px solid black;"><img src="${payment.paymentImage}"/></td>
+                    <td style=" text-align: center;border:1px solid black;">${payment.paymentstatus}</td>
+                    </tr>`
+          );
+        }
 
-    //     return `<table style="width: 100%;  border-collapse: collapse; border:1px solid black;">${theader}${tbody.join(
-    //       ""
-    //     )}</table>`;
-    //   }
-    // }
-    // // sendMail().catch(console.error);
-    // sendMailtoadmin().catch(console.error);
+        return `<table style="width: 100%;  border-collapse: collapse; border:1px solid black;">${theader}${tbody.join(
+          ""
+        )}</table>`;
+      }
+      const html = `${tempText1}${tempText2}${tempText3}${tempText4}${tableGenerator(
+        rows
+      )}${tempText5}`;
+    }
+
+    sendMailtoadmin().catch(console.error);
     sendMail().catch(console.error);
 
     ///sendMail Space

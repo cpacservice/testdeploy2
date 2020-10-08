@@ -122,7 +122,7 @@ router.post("/", async (req, res) => {
                 <th style="border:1px solid black;">ชื่อที่แจ้งชำระ</th>
                 <th style="border:1px solid black;">ธนาคารที่ชำระ</th>
                 <th style="border:1px solid black;">ยอดชำระ</th>
-
+                <th style="border:1px solid black;">หลักฐานการโอน</th>
                 <th style="border:1px solid black;">สถานะการชำระเงิน</th>
 
                 </tr>`;
@@ -135,7 +135,7 @@ router.post("/", async (req, res) => {
                     <td style=" text-align: center;border:1px solid black;">${payment.transferName}</td>
                     <td style=" text-align: center;border:1px solid black;">${payment.bankName}</td>
                     <td style=" text-align: center;border:1px solid black;">${payment.totalprice}</td>
-                  
+                    <td style=" text-align: center;border:1px solid black;"><img height="150px" width ="100px" src = "${payment.totalprice}"></td>
                     <td style=" text-align: center;border:1px solid black;">${payment.paymentstatus}</td>
                     </tr>`
           );
@@ -147,7 +147,7 @@ router.post("/", async (req, res) => {
       }
       const html = `${tempText1}${tempText2}${tempText3}${tempText4}${tableGenerator(
         rows
-      )}${image}${tempText5}`;
+      )}${tempText5}`;
 
       let infouser = await transporter.sendMail({
         from: '"No reply" <cpacservicealert@gmail.com>', // อีเมลผู้ส่ง

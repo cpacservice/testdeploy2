@@ -56,26 +56,32 @@ router.get("/showpayment", async (req, res) => {
 router.post("/", async (req, res) => {
   let rows2;
   let rows;
+  let lastid;
   let db = req.db;
   let status = "กำลังดำเนินการ";
   try {
-    rows2 = await db("payments").insert({
-      orderid: req.body.orderid,
-      transferName: req.body.transferName,
-      banknum: req.body.banknum,
-      totalprice: req.body.totalprice,
-      paymentDate: req.body.paymentDate,
-      paymentTime: req.body.paymentTime,
-      paymentImage: req.body.paymentImage,
-      paymentstatus: status,
-    });
+    rows2 = await db("payments")
+      .insert({
+        orderid: req.body.orderid,
+        transferName: req.body.transferName,
+        banknum: req.body.banknum,
+        totalprice: req.body.totalprice,
+        paymentDate: req.body.paymentDate,
+        paymentTime: req.body.paymentTime,
+        paymentImage: req.body.paymentImage,
+        paymentstatus: status,
+      })
+      .returning("paymentid")
+      .then(function (paymentid) {
+        lastid = paymentid;
+      });
 
     //join ตารางเพื่อดึงค่า email
     rows = await db("payments as p")
       .join("orders as o", "o.orderid", "p.orderid")
       .join("users as u", "u.userid", "o.userid")
       .join("bank_account as b", "b.bankNum", "p.banknum")
-      .where("o.orderid", "=", req.body.orderid);
+      .where("o.orderid", "=", lastid);
 
     //join ตารางเพื่อดึงค่า email
     // ///send Mail Space

@@ -110,6 +110,7 @@ router.post("/", async (req, res) => {
       const tempText4 = `<div style="text-align: center;>
                 <h4 :style="{ paddingTop: '20px' }">
                       <br><b>แจ้งเตือนการชำระเงินของท่าน</b></h4></div>`;
+      const image = `<div><u><b>หลักฐานการโอน</b></u><br > <img height="150px" width="100px" src="${payment.paymentImage}"/></div>`;
       const tempText5 = `<div><b></b><h4>หมายเหตุ</h4></b>
           <ul>
           <li>กรุณารอการติดต่อกลับจากเจ้าหน้าที่ภายใน 3 วันทำการ</li>
@@ -121,7 +122,7 @@ router.post("/", async (req, res) => {
                 <th style="border:1px solid black;">ชื่อที่แจ้งชำระ</th>
                 <th style="border:1px solid black;">ธนาคารที่ชำระ</th>
                 <th style="border:1px solid black;">ยอดชำระ</th>
-                <th style="border:1px solid black;">หลักฐานการชำระเงิน</th>
+
                 <th style="border:1px solid black;">สถานะการชำระเงิน</th>
 
                 </tr>`;
@@ -134,7 +135,7 @@ router.post("/", async (req, res) => {
                     <td style=" text-align: center;border:1px solid black;">${payment.transferName}</td>
                     <td style=" text-align: center;border:1px solid black;">${payment.bankName}</td>
                     <td style=" text-align: center;border:1px solid black;">${payment.totalprice}</td>
-                    <td style=" text-align: center;border:1px solid black;"><img  height="150px" width="100px"  src="${payment.paymentImage}"/></td>
+                  
                     <td style=" text-align: center;border:1px solid black;">${payment.paymentstatus}</td>
                     </tr>`
           );
@@ -146,7 +147,7 @@ router.post("/", async (req, res) => {
       }
       const html = `${tempText1}${tempText2}${tempText3}${tempText4}${tableGenerator(
         rows
-      )}${tempText5}`;
+      )}${image}${tempText5}`;
 
       let infouser = await transporter.sendMail({
         from: '"No reply" <cpacservicealert@gmail.com>', // อีเมลผู้ส่ง

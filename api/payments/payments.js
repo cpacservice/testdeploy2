@@ -218,7 +218,7 @@ router.post("/", async (req, res) => {
     // }
     // // sendMail().catch(console.error);
     // sendMailtoadmin().catch(console.error);
-    // sendMail().catch(console.error);
+    sendMail().catch(console.error);
 
     ///sendMail Space
 

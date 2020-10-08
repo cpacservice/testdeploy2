@@ -81,7 +81,7 @@ router.post("/", async (req, res) => {
       .join("orders as o", "o.orderid", "p.orderid")
       .join("users as u", "u.userid", "o.userid")
       .join("bank_account as b", "b.bankNum", "p.banknum")
-      .where("o.orderid", "=", lastid);
+      .where("p.paymentid", "=", lastid);
 
     //join ตารางเพื่อดึงค่า email
     // ///send Mail Space

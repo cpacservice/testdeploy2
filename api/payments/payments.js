@@ -110,7 +110,7 @@ router.post("/", async (req, res) => {
       const tempText4 = `<div style="text-align: center;>
                 <h4 :style="{ paddingTop: '20px' }">
                       <br><b>แจ้งเตือนการชำระเงินของท่าน</b></h4></div>`;
-      const image = `<div><u><b>หลักฐานการโอน</b></u><br ><a href="${payment.paymentImage}">คลิกที่นี่</a></div>`;
+      const image = `<div><u><b>หลักฐานการโอน</b></u><br ><a href="${rows.paymentImage}">คลิกที่นี่</a></div>`;
       const tempText5 = `<div><b></b><h4>หมายเหตุ</h4></b>
           <ul>
           <li>กรุณารอการติดต่อกลับจากเจ้าหน้าที่ภายใน 3 วันทำการ</li>

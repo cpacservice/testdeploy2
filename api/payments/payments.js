@@ -72,7 +72,7 @@ router.post("/", async (req, res) => {
     rows = await db("payments as p")
       .join("orders as o", "o.orderid", "p.orderid")
       .join("users as u", "u.userid", "o.orderid")
-      .join("bank_account as b", "b.Bank_num", "p.banknum");
+      .join("bank_account as b", "b.bankNum", "p.banknum");
 
     //join ตารางเพื่อดึงค่า email
     ///send Mail Space
@@ -124,7 +124,7 @@ router.post("/", async (req, res) => {
             `<tr>
                     <td style="border:1px solid black;">${payment.orderid}</td>
                     <td style=" text-align: center;border:1px solid black;">${payment.transferName}</td>
-                    <td style=" text-align: center;border:1px solid black;">${payment.BankName}</td>
+                    <td style=" text-align: center;border:1px solid black;">${payment.bankName}</td>
                     <td style=" text-align: center;border:1px solid black;">${payment.totalprice}</td>
                     <td style=" text-align: center;border:1px solid black;"><img src="${payment.totalprice}"/></td>
                     <td style=" text-align: center;border:1px solid black;">${payment.paymentstatus}</td>

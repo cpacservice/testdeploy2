@@ -134,7 +134,7 @@ router.post("/", async (req, res) => {
                     <td style=" text-align: center;border:1px solid black;">${payment.transferName}</td>
                     <td style=" text-align: center;border:1px solid black;">${payment.bankName}</td>
                     <td style=" text-align: center;border:1px solid black;">${payment.totalprice}</td>
-                    <td style=" text-align: center;border:1px solid black;"><img src="${payment.paymentImage}"/></td>
+                    <td style=" text-align: center;border:1px solid black;"><img  height="150px" width="100px"  src="${payment.paymentImage}"/></td>
                     <td style=" text-align: center;border:1px solid black;">${payment.paymentstatus}</td>
                     </tr>`
           );

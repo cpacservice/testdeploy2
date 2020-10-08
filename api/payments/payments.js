@@ -83,7 +83,7 @@ router.post("/", async (req, res) => {
       .join("bank_account as b", "b.bankNum", "p.banknum")
       .where("p.paymentid", "=", lastid);
 
-    join ตารางเพื่อดึงค่า email
+    //join ตารางเพื่อดึงค่า email
     ///send Mail Space
     async function sendMail() {
       // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล

@@ -114,3 +114,18 @@ router.get("/getitem", async (req, res) => {
     res.send({ ok: false, error: e.message });
   }
 });
+
+router.get("/getforinsert", async (req, res) => {
+  // ใช้ async function
+  try {
+    let db = req.db;
+    let rows;
+    rows = await db("bank_items").where("itemid", "=", req.body.itemid);
+    res.send({
+      ok: true, // ส่ง status
+      bankItems: rows, // ส่งค่ากลับ
+    });
+  } catch (e) {
+    res.send({ ok: false, error: e.message });
+  }
+});

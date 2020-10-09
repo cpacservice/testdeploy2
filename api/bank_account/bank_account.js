@@ -65,6 +65,7 @@ router.post("/insert", async (req, res) => {
     bankAcc: req.body.bankAcc,
     bankAcc: req.body.bankAcc,
     owner: req.body.owner,
+    image: req.body.image,
     bankstatus: active,
   });
   res.send({

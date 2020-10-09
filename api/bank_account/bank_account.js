@@ -115,7 +115,7 @@ router.get("/getitem", async (req, res) => {
   }
 });
 
-router.get("/getforinsert", async (req, res) => {
+router.post("/getforinsert", async (req, res) => {
   // ใช้ async function
   try {
     let db = req.db;

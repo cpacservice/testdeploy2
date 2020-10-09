@@ -63,6 +63,7 @@ router.post("/insert", async (req, res) => {
   let ids = await db("bank_account").insert({
     bankName: req.body.bankName,
     bankAcc: req.body.bankAcc,
+    branch: req.body.branch,
     bankAcc: req.body.bankAcc,
     owner: req.body.owner,
     image: req.body.image,

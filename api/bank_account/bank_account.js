@@ -40,6 +40,7 @@ router.post("/update", async (req, res) => {
     bankName: req.body.bankName,
     bankAcc: req.body.bankAcc,
     owner: req.body.owner,
+    branch: req.body.branch,
     bankstatus: req.body.bankstatus,
   });
   res.send({ ok: true });

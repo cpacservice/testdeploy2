@@ -5,11 +5,13 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 module.exports = router;
 const nodemailer = require("nodemailer");
-let linklocal;
+
 
 router.post("/login", async (req, res) => {
   let db = req.db;
 
+
+ 
   let rows = await req.db("users").where("email", "=", req.body.email);
   if (rows.length === 0) {
     return res.send({
@@ -18,60 +20,116 @@ router.post("/login", async (req, res) => {
     });
   }
   try {
-    if (
-      bcrypt.compareSync(req.body.password, rows[0].password) &&
-      rows[0].status == "user"
-    ) {
-      const token = jwt.sign(
-        {
-          email: rows[0].email,
-          fisrtname: rows[0].firstname,
-          lastname: rows[0].lastname,
-          gender: rows[0].gender,
-          status: rows[0].status,
-        },
-        process.env.JWT_KEY,
-        {
-          expiresIn: "7d",
-        }
-      );
-      return res.send({
-        ok: true,
-        message: "เข้าสู่ระบบ User",
-        token: token,
-      });
-    }
-    if (
-      bcrypt.compareSync(req.body.password, rows[0].password) &&
-      rows[0].status == "admin"
-    ) {
-      const token = jwt.sign(
-        {
-          email: rows[0].email,
-          fisrtname: rows[0].firstname,
-          lastname: rows[0].lastname,
-          gender: rows[0].gender,
-          status: rows[0].status,
-        },
-        process.env.JWT_KEY,
-        {
-          expiresIn: "7d",
-        }
-      );
-      return res.send({
-        ok: true,
-        message: "เข้าสู่ระบบ Admin",
-        token: token,
-      });
-    } else {
+    if (rows[0].confirmStatus == false) {
+            //send confirmemail
+            async function sendMail() {
+              // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
+              let transporter = nodemailer.createTransport({
+                host: "smtp.gmail.com",
+                port: 465,
+                secure: true,
+                auth: {
+                  type: "OAuth2",
+                  user: process.env.EMAIL,
+                  pass: process.env.EMAILPASSWORD,
+                  clientId: process.env.CLIENTID,
+                  clientSecret: process.env.CLIENTSECRET,
+                  refreshToken: process.env.REFRESHTOKEN,
+                  accessToken: process.env.ACCESSTOKEN,
+                  expires: process.env.EXP,
+                },
+              });
+              const tokenemail = jwt.sign(
+                {
+                  email: rows[0].email,
+                  fisrtname: rows[0].firstname,
+                  lastname: rows[0].lastname,
+                  gender: rows[0].gender,
+                  status: rows[0].status,
+                },
+                process.env.CONFIRM_EMAIL_TOKEN,
+                {
+                  expiresIn: "10m",
+                }
+              );
+              
+              let infouser = await transporter.sendMail({
+                from: '"No reply" <cpacservice-f27bbb@inbox.mailtrap.io>', // อีเมลผู้ส่ง
+                to: `${rows[0].email}`, // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
+                subject: "กรุณายืนยันอีเมล์", // หัวข้ออีเมล
+                text: "กรุณากดลิ้งเพื่อยืนยันอีเมล์ในการเข้าสู่ระบบ", // plain text body
+                html:`<a href=${process.env.WEB_URL_TEST}/api/users/confirmation/${tokenemail}>คลิกที่นี่</a>`, // html body
+              });
+              console.log("Message sent: %s", infouser.messageId);
+            }
+            sendMail().catch(console.error);
+                  //send confirmemail
+      
       return res.send({
         ok: false,
-        message: "ยืนยันไม่สำเร็จ",
+        message: "กรุณายืนยันอีเมล์ของท่านก่อนเข้าสู่ระบบ",
       });
+ 
+    } else { 
+      if (
+        bcrypt.compareSync(req.body.password, rows[0].password) &&
+        rows[0].status == "user"
+      ) {
+        const token = jwt.sign(
+          {
+            email: rows[0].email,
+            fisrtname: rows[0].firstname,
+            lastname: rows[0].lastname,
+            gender: rows[0].gender,
+            status: rows[0].status,
+          },
+          process.env.JWT_KEY,
+          {
+            expiresIn: "7d",
+          }
+        );
+        return res.send({
+          ok: true,
+          message: "เข้าสู่ระบบ User",
+          token: token,
+        });
+      }
+      if (
+        bcrypt.compareSync(req.body.password, rows[0].password) &&
+        rows[0].status == "admin"
+      ) {
+        const token = jwt.sign(
+          {
+            email: rows[0].email,
+            fisrtname: rows[0].firstname,
+            lastname: rows[0].lastname,
+            gender: rows[0].gender,
+            status: rows[0].status,
+          },
+          process.env.JWT_KEY,
+          {
+            expiresIn: "7d",
+          }
+        );
+        return res.send({
+          ok: true,
+          message: "เข้าสู่ระบบ Admin",
+          token: token,
+        });
+      } else {
+        return res.send({
+          ok: false,
+          message: "ยืนยันไม่สำเร็จ",
+        });
+      }
+   
+
     }
   } catch (e) {
     res.send({ ok: false, error: e.message });
   } //ใข้งานได้
+    
+   
 });
 
 router.post("/register", async (req, res) => {
@@ -157,7 +215,7 @@ router.post("/register", async (req, res) => {
             to: `${rows2[0].email}`, // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
             subject: "กรุณายืนยันอีเมล์", // หัวข้ออีเมล
             text: "กรุณากดลิ้งเพื่อยืนยันอีเมล์ในการเข้าสู่ระบบ", // plain text body
-            html:`<a href=${process.env.WEB_URL_TEST}/users/confirmation?token=${tokenemail}>คลิกที่นี่</a>`, // html body
+            html:`<a href=${process.env.WEB_URL_TEST}/api/users/confirmation/${tokenemail}>คลิกที่นี่</a>`, // html body
           });
           console.log("Message sent: %s", infouser.messageId);
         }
@@ -182,6 +240,24 @@ router.post("/register", async (req, res) => {
     res.send({ ok: false, error: e.message });
   }
 });
+router.get("/confirmation/:token", async (req, res) => {
+  try { 
+    const decoded = jwt.verify(req.params.token, process.env.CONFIRM_EMAIL_TOKEN);
+    console.log(decoded.email);
+    let db = req.db;
+    await db("users").where({ email: decoded.email }).update({
+      confirmStatus: true,
+    });
+    return res.redirect(`${process.env.WEB_URL_TEST_FRONT}/users/login`)
+  }
+  catch (e) {
+    res.send({ ok: false, error: e.message });
+    //กรณีลิ้งก์หมดอายุ"jwt expired"
+  }
+
+ 
+});
+
 
 
 
@@ -360,18 +436,3 @@ router.post("/resetpassword", async (req, res) => {
   }
 });
 
-router.get("/test", async (req, res) => {
-  let db = req.db;
-  let rows;
-  try {
-    rows = await db("users").where({ resetLink: req.body.token });
-
-      res.send({
-        ok: true,
-        response: "gtest",
-      });
-    }
-   catch (e) {
-    res.send({ ok: false, error: e.message });
-  }
-});

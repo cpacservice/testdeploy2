@@ -56,6 +56,7 @@ router.get("/showpayment", async (req, res) => {
 router.post("/", async (req, res) => {
   let rows2;
   let rows;
+  let order_rows;
   let lastid;
   let db = req.db;
   let status = "กำลังดำเนินการ";
@@ -82,6 +83,13 @@ router.post("/", async (req, res) => {
       .join("users as u", "u.userid", "o.userid")
       .join("bank_account as b", "b.bankNum", "p.banknum")
       .where("p.paymentid", "=", lastid);
+    
+      order_rows = await db("order_detail as od ")
+      .join("orders as o", "o.orderid", "od.orderid")
+      .join("products as p", "p.productid", "od.productid")
+      .join("users as u", "u.userid", "o.userid")
+      .join("ship_medthod as s", "s.shm_id", "o.ship_medthod")
+      .where("od.orderid", "=", rows[0].orderid);
 
     //join ตารางเพื่อดึงค่า email
     ///send Mail Space
@@ -182,12 +190,20 @@ router.post("/", async (req, res) => {
                   <h4 :style="{ paddingTop: '20px' }">
                         <br><b>รายละเอียดการชำระเงิน</b></h4></div>`;
       const image = `<div><u><b>หลักฐานการโอน</b></u><br ><a href="${rows[0].paymentImage}">คลิกที่นี่</a></div>`;
+     
+      const orderText1 = `<div><b>คุณ</b> ${order_rows[0].firstname} <b>นามสกุล</b>  ${order_rows[0].lastname} <br /><b>ที่อยู่จัดส่ง </b> ${order_rows[0].address} <br /><b>เบอร์โทรติดต่อ </b> ${order_rows[0].phone}<br /><b>วันที่สั่งซื้อสินค้า </b> วัน${order_rows[0].orderdate}<br /><b>เวลาที่สั่งซื้อสินค้า </b> ${order_rows[0].ordertime} นาที<br /><b>หมายเลขคำสั่งซื้อที่  </b> ${order_rows[0].orderid}</div>`;
+      const orderext2 = `<div style="text-align: center;>
+              <h4 :style="{ paddingTop: '20px' }">
+                    <br><b>รายละเอียดการสั่งสินค้า</b></h4></div>`;
+
       const html = `${tempText1}${tempText2}${tempText3}${tableGenerator(
         rows
-      )}${image}`;
+      )}${image}<br/>${orderText1}<br />${orderext2}${tableGeneratorOrder(
+        order_rows
+      )}`;
       let infoadmin = await transporter.sendMail({
         from: '"No reply" <cpacservice-f27bbb@inbox.mailtrap.io>', // อีเมลผู้ส่ง
-        to: "s6006021630016@kmutnb.ac.th,saharatl@scg.com,nisira@scg.com", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
+        to: "28859c2143-a7acbd@inbox.mailtrap.io", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
         // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
         subject: `แจ้งการชำระเงินออเดอร์ ${rows[0].orderid}`, // หัวข้ออีเมล
         text: "", // plain text body
@@ -223,6 +239,46 @@ router.post("/", async (req, res) => {
           ""
         )}</table>`;
       }
+      function tableGeneratorOrder(orderDetails) {
+        const theader = `<tr style="background :#3399FF" >
+            <th style="border:1px solid black;" >สินค้า</th>
+            <th style="border:1px solid black;">จำนวน</th>
+            <th style="border:1px solid black;">ราคาต่อชิ้น</th>
+            <th style="border:1px solid black;">ราคารวม</th>
+
+            </tr>`;
+        const tbody = [];
+
+        for (const orderDetail of orderDetails) {
+          tbody.push(
+            `<tr>
+                <td style="border:1px solid black;">${
+                  orderDetail.productname
+                }</td>
+                <td style=" text-align: center;border:1px solid black;">${
+                  orderDetail.quantity
+                }</td>
+                <td style=" text-align: center;border:1px solid black;">${
+                  orderDetail.unitprice
+                }</td>
+                <td style=" text-align: center;border:1px solid black;">฿ ${formatPrice(
+                  orderDetail.quantity * orderDetail.unitprice
+                )}</td>
+                </tr>`
+          );
+        }
+
+        const vatRow = `<tr style=" border:1px solid black;" ><th style=" border:1px solid black;  background :#3399FF;">vat (7%)</th><th style=" background :#3399FF;" colspan="4">${formatPrice(
+          calVat(orderDetails).vat
+        )} บาท</th></tr>`;
+        const totalRow = `<tr style=" border:1px solid black;"><th style=" border:1px solid black; background :#3399FF; ">ยอดที่ต้องชำระ</th><th style=" background :#3399FF; color:red;" colspan="4">${formatPrice(
+          calVat(orderDetails).netPrice
+        )} บาท</th></tr>`;
+
+        return `<table style="width: 100%;  border-collapse: collapse; border:1px solid black;">${theader}${tbody.join(
+          ""
+        )}${vatRow}${totalRow}</table>`;
+      }
     }
 
     sendMailtoadmin().catch(console.error);
@@ -233,6 +289,7 @@ router.post("/", async (req, res) => {
     res.send({
       ok: true,
       payments: rows,
+      orderDetail:order_rows
     });
   } catch (e) {
     res.send({ ok: false, error: e.message });

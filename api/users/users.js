@@ -21,50 +21,6 @@ router.post("/login", async (req, res) => {
   }
   try {
     if (rows[0].confirmStatus == false) {
-            //send confirmemail
-            async function sendMail() {
-              // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
-              let transporter = nodemailer.createTransport({
-                host: "smtp.gmail.com",
-                port: 465,
-                secure: true,
-                auth: {
-                  type: "OAuth2",
-                  user: process.env.EMAIL,
-                  pass: process.env.EMAILPASSWORD,
-                  clientId: process.env.CLIENTID,
-                  clientSecret: process.env.CLIENTSECRET,
-                  refreshToken: process.env.REFRESHTOKEN,
-                  accessToken: process.env.ACCESSTOKEN,
-                  expires: process.env.EXP,
-                },
-              });
-              const tokenemail = jwt.sign(
-                {
-                  email: rows[0].email,
-                  fisrtname: rows[0].firstname,
-                  lastname: rows[0].lastname,
-                  gender: rows[0].gender,
-                  status: rows[0].status,
-                },
-                process.env.CONFIRM_EMAIL_TOKEN,
-                {
-                  expiresIn: "10m",
-                }
-              );
-              
-              let infouser = await transporter.sendMail({
-                from: '"No reply" <cpacservice-f27bbb@inbox.mailtrap.io>', // อีเมลผู้ส่ง
-                to: `${rows[0].email}`, // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
-                subject: "กรุณายืนยันอีเมล์", // หัวข้ออีเมล
-                text: "กรุณากดลิ้งเพื่อยืนยันอีเมล์ในการเข้าสู่ระบบ", // plain text body
-                html:`<a href=${process.env.WEB_URL_API}/api/users/confirmation/${tokenemail}>คลิกที่นี่</a>`, // html body
-              });
-              console.log("Message sent: %s", infouser.messageId);
-            }
-            sendMail().catch(console.error);
-                  //send confirmemail
-      
       return res.send({
         ok: false,
         message: "กรุณายืนยันอีเมล์ของท่านก่อนเข้าสู่ระบบ",

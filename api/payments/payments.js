@@ -90,6 +90,7 @@ router.post("/", async (req, res) => {
       .join("users as u", "u.userid", "o.userid")
       .join("ship_medthod as s", "s.shm_id", "o.ship_medthod")
       .where("od.orderid", "=", rows[0].orderid);
+    console.log( rows[0].orderid)
 
     //join ตารางเพื่อดึงค่า email
     ///send Mail Space
@@ -252,18 +253,15 @@ router.post("/", async (req, res) => {
         for (const orderDetail of orderDetails) {
           tbody.push(
             `<tr>
-                <td style="border:1px solid black;">${
-                  orderDetail.productname
-                }</td>
-                <td style=" text-align: center;border:1px solid black;">${
-                  orderDetail.quantity
-                }</td>
-                <td style=" text-align: center;border:1px solid black;">${
-                  orderDetail.unitprice
-                }</td>
+                <td style="border:1px solid black;">${orderDetail.productname
+            }</td>
+                <td style=" text-align: center;border:1px solid black;">${orderDetail.quantity
+            }</td>
+                <td style=" text-align: center;border:1px solid black;">${orderDetail.unitprice
+            }</td>
                 <td style=" text-align: center;border:1px solid black;">฿ ${formatPrice(
-                  orderDetail.quantity * orderDetail.unitprice
-                )}</td>
+              orderDetail.quantity * orderDetail.unitprice
+            )}</td>
                 </tr>`
           );
         }
@@ -279,13 +277,29 @@ router.post("/", async (req, res) => {
           ""
         )}${vatRow}${totalRow}</table>`;
       }
-    }
+      //ตรงนี้ฟังก์ชันทำให้ค่ามีลูกน้ำสวยๆ
+      function formatPrice(value) {
+        let val = (value / 1).toFixed(2).replace(",", ".");
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+      function calVat(products) {
+        const totalPrice = products.reduce(
+          (total, product) => (total += product.unitprice * product.quantity),
+          0
+        );
+        const vat7 = totalPrice * (7 / 100);
+        const netPrice = vat7 + totalPrice;
 
+        return { vat: vat7, netPrice };
+      
+      
+      }
+    }
+    
     sendMailtoadmin().catch(console.error);
     sendMail().catch(console.error);
 
     ///sendMail Space
-
     res.send({
       ok: true,
       payments: rows,
@@ -293,7 +307,8 @@ router.post("/", async (req, res) => {
     });
   } catch (e) {
     res.send({ ok: false, error: e.message });
-  }
+    }
+    
   let orderupdate;
   try {
     let db = req.db;

@@ -165,3 +165,19 @@ router.post("/updatequantity", async (req, res) => {
     carts: carts,
   });
 });
+
+router.post("/clearcart", async (req, res) => {
+  //put
+  let db = req.db;
+  let rows;
+  rows =await db("carts")
+  .where({userid: req.body.userid })
+  .delete()
+  .then(() => {
+    res.send({ ok: true });
+  })
+  .catch((e) => res.send({ ok: false, error: e.message }));
+
+
+  
+});

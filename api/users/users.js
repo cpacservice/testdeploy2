@@ -58,7 +58,7 @@ router.post("/login", async (req, res) => {
                 to: `${rows[0].email}`, // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
                 subject: "กรุณายืนยันอีเมล์", // หัวข้ออีเมล
                 text: "กรุณากดลิ้งเพื่อยืนยันอีเมล์ในการเข้าสู่ระบบ", // plain text body
-                html:`<a href=${process.env.WEB_URL_TEST}/api/users/confirmation/${tokenemail}>คลิกที่นี่</a>`, // html body
+                html:`<a href=${process.env.WEB_URL_API}/api/users/confirmation/${tokenemail}>คลิกที่นี่</a>`, // html body
               });
               console.log("Message sent: %s", infouser.messageId);
             }
@@ -215,7 +215,7 @@ router.post("/register", async (req, res) => {
             to: `${rows2[0].email}`, // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
             subject: "กรุณายืนยันอีเมล์", // หัวข้ออีเมล
             text: "กรุณากดลิ้งเพื่อยืนยันอีเมล์ในการเข้าสู่ระบบ", // plain text body
-            html:`<a href=${process.env.WEB_URL_TEST}/api/users/confirmation/${tokenemail}>คลิกที่นี่</a>`, // html body
+            html:`<a href=${process.env.WEB_URL_API}/api/users/confirmation/${tokenemail}>คลิกที่นี่</a>`, // html body
           });
           console.log("Message sent: %s", infouser.messageId);
         }
@@ -248,7 +248,7 @@ router.get("/confirmation/:token", async (req, res) => {
     await db("users").where({ email: decoded.email }).update({
       confirmStatus: true,
     });
-    return res.redirect(`${process.env.WEB_URL_TEST_FRONT}/users/login`)
+    return res.redirect(`${process.env.WEB_URL}/users/login`)
   }
   catch (e) {
     res.send({ ok: false, error: e.message });

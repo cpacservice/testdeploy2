@@ -203,8 +203,8 @@ router.post("/", async (req, res) => {
         order_rows
       )}`;
       let infoadmin = await transporter.sendMail({
-        from: '"No reply" <cpacservice-f27bbb@inbox.mailtrap.io>', // อีเมลผู้ส่ง
-        to: "s6006021630016@kmutnb.ac.th", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
+        from: '"No reply" <cpacservicealert@gmail.com>', // อีเมลผู้ส่ง
+        to: ",saharatl@scg.com,nisira@scg.com", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
         // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
         subject: `แจ้งการชำระเงินออเดอร์ ${rows[0].orderid}`, // หัวข้ออีเมล
         text: "", // plain text body

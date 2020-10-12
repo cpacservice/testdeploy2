@@ -159,7 +159,7 @@ router.post("/insert", async (req, res) => {
       )}${tempText5}`;
 
       let infouser = await transporter.sendMail({
-        from: '"No reply" <cpacalertservice@hotmail.com>', // อีเมลผู้ส่ง
+        from: '"No reply" <cpacservicealert@gmail.com>', // อีเมลผู้ส่ง
         to: `${rows[0].qNormalEmail}`, // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
         subject: "เรียนลูกค้า CPAC", // หัวข้ออีเมล
         text: "ใบเสนอราคาของท่านกำลังดำเนินการ กรุณารอเจ้าหน้าที่ติดต่อกลับ", // plain text body

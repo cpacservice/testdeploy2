@@ -75,9 +75,9 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  let checknull = await req.db("users");
+ 
   //ส่วน captcha
-
+  let rows2;
   try {
     if (
       req.body.firstname === null ||
@@ -101,10 +101,11 @@ router.post("/register", async (req, res) => {
       //ตรวจจากความยาวแล้วไม่ซ้ำ
       let statususer = "user";
       let active = "active";
+      let ids;
       try {
         const hash = bcrypt.hashSync(req.body.password, 10); //เข้ารหัสpassword
         let db = req.db;
-        let ids = await db("users").insert({
+       ids = await db("users").insert({
           firstname: req.body.firstname,
           lastname: req.body.lastname,
           gender: req.body.gender,
@@ -115,11 +116,58 @@ router.post("/register", async (req, res) => {
           age: req.body.age,
           status: statususer,
           userStatus: active,
-        });
+          confirmStatus: false
+       });
+       let rows2 = await req.db("users").where("userid", "=",ids);
+        
+        //send confirmemail
+        async function sendMail() {
+          // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
+          let transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true,
+            auth: {
+              type: "OAuth2",
+              user: process.env.EMAIL,
+              pass: process.env.EMAILPASSWORD,
+              clientId: process.env.CLIENTID,
+              clientSecret: process.env.CLIENTSECRET,
+              refreshToken: process.env.REFRESHTOKEN,
+              accessToken: process.env.ACCESSTOKEN,
+              expires: process.env.EXP,
+            },
+          });
+          const tokenemail = jwt.sign(
+            {
+              email: rows2[0].email,
+              fisrtname: rows2[0].firstname,
+              lastname: rows2[0].lastname,
+              gender: rows2[0].gender,
+              status: rows2[0].status,
+            },
+            process.env.CONFIRM_EMAIL_TOKEN,
+            {
+              expiresIn: "10m",
+            }
+          );
+          
+          let infouser = await transporter.sendMail({
+            from: '"No reply" <cpacservice-f27bbb@inbox.mailtrap.io>', // อีเมลผู้ส่ง
+            to: `${rows2[0].email}`, // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
+            subject: "กรุณายืนยันอีเมล์", // หัวข้ออีเมล
+            text: "กรุณากดลิ้งเพื่อยืนยันอีเมล์ในการเข้าสู่ระบบ", // plain text body
+            html:`<a href=${process.env.WEB_URL_TEST}/users/confirmation?token=${tokenemail}>คลิกที่นี่</a>`, // html body
+          });
+          console.log("Message sent: %s", infouser.messageId);
+        }
+        sendMail().catch(console.error);
+              //send confirmemail
+
         return res.send({
           ok: true,
           message: "ลงทะเบียนได้",
-          ids,
+          show: rows2[0].email
         });
       } catch (e) {
         res.send({ ok: false, error: e.message });
@@ -134,6 +182,8 @@ router.post("/register", async (req, res) => {
     res.send({ ok: false, error: e.message });
   }
 });
+
+
 
 router.get("/me", async (req, res) => {
   try {
@@ -227,7 +277,6 @@ router.post("/forgetpassword", async (req, res) => {
   const email = req.body.email;
   let db = req.db;
   let rows;
-  let rowupdate;
 
   rows = await db("users").where({ email: req.body.email });
   if (rows == 0) {
@@ -288,9 +337,6 @@ router.post("/forgetpassword", async (req, res) => {
 router.post("/resetpassword", async (req, res) => {
   let db = req.db;
   let rows;
-  let newPass = req.body.newPass;
-  let rowupadte;
-  let token = req.body.token;
   try {
     rows = await db("users").where({ resetLink: req.body.token });
     if (rows == 0) {
@@ -310,6 +356,22 @@ router.post("/resetpassword", async (req, res) => {
       });
     }
   } catch (e) {
+    res.send({ ok: false, error: e.message });
+  }
+});
+
+router.get("/test", async (req, res) => {
+  let db = req.db;
+  let rows;
+  try {
+    rows = await db("users").where({ resetLink: req.body.token });
+
+      res.send({
+        ok: true,
+        response: "gtest",
+      });
+    }
+   catch (e) {
     res.send({ ok: false, error: e.message });
   }
 });

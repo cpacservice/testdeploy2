@@ -167,7 +167,7 @@ router.post("/register", async (req, res) => {
           );
           
           let infouser = await transporter.sendMail({
-            from: '"No reply" <cpacservice-f27bbb@inbox.mailtrap.io>', // อีเมลผู้ส่ง
+            from: '"CPAC Service Alert" <cpacservice-f27bbb@inbox.mailtrap.io>', // อีเมลผู้ส่ง
             to: `${rows2[0].email}`, // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
             subject: "กรุณายืนยันอีเมล์", // หัวข้ออีเมล
             text: "กรุณากดลิ้งเพื่อยืนยันอีเมล์ในการเข้าสู่ระบบ", // plain text body
@@ -354,7 +354,7 @@ router.post("/forgetpassword", async (req, res) => {
         },
       });
       let infouser = await transporter.sendMail({
-        from: '"No reply" <cpacservice-f27bbb@inbox.mailtrap.io>', // อีเมลผู้ส่ง
+        from: '"CPAC Service Alert" <cpacservice-f27bbb@inbox.mailtrap.io>', // อีเมลผู้ส่ง
         to: email, // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
         subject: "แจ้งการรีเซ็ท", // หัวข้ออีเมล
         text: "", // plain text body

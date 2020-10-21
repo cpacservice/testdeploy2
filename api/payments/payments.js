@@ -159,7 +159,7 @@ router.post("/", async (req, res) => {
       )}${tempText5}`;
 
       let infouser = await transporter.sendMail({
-        from: '"No reply" <cpacservicealert@gmail.com>', // อีเมลผู้ส่ง
+        from: '"CPAC Service Alert" <cpacservicealert@gmail.com>', // อีเมลผู้ส่ง
         to: `${rows[0].email}`, // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
         subject: "เรียนลูกค้า CPAC", // หัวข้ออีเมล
         text: "การชำระเงินของท่านกำลังดำเนินการ", // plain text body
@@ -203,7 +203,7 @@ router.post("/", async (req, res) => {
         order_rows
       )}`;
       let infoadmin = await transporter.sendMail({
-        from: '"No reply" <cpacservicealert@gmail.com>', // อีเมลผู้ส่ง
+        from: '"CPAC Service Alert" <cpacservicealert@gmail.com>', // อีเมลผู้ส่ง
         to: ",saharatl@scg.com,nisira@scg.com", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
         // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
         subject: `แจ้งการชำระเงินออเดอร์ ${rows[0].orderid}`, // หัวข้ออีเมล

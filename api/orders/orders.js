@@ -347,10 +347,12 @@ router.post("/update", async (req, res) => {
   let db = req.db;
   let orders;
   let rows;
+  let orderstatus = req.body.orderStatus;
+  console.log(orderstatus)
 
   await db("orders").where({ orderid: req.body.orderid }).update({
     tracking: req.body.tracking,
-    orderStatus: req.body.orderStatus,
+    orderStatus: orderstatus,
   });
   rows = await db("order_detail as od ")
   .join("orders as o", "o.orderid", "od.orderid")
@@ -358,7 +360,7 @@ router.post("/update", async (req, res) => {
   .join("users as u", "u.userid", "o.userid")
   .join("ship_medthod as s", "s.shm_id", "o.ship_medthod")
   .where("od.orderid", "=", req.body.orderid);
-  if (orderStatus == 'กำลังจัดส่ง') { 
+  if (orderstatus == 'กำลังจัดส่ง') { 
     //ส่งemail แจ้งเเตือนสถานะสินค้ากับลูกค้า
     async function sendMail() {
       // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล

@@ -115,7 +115,7 @@ router.post("/", async (req, res) => {
           <h4 :style="{ paddingTop: '20px' }">
                 <b>บริษัท ผลิตภัณฑ์และวัตถุก่อสร้าง จำกัด</b></h4>`;
       const tempText2 = `<div>1516 ถ.ประชาราษฎร์ 1 แขวงวงศ์สว่าง เขตบางซื่อ กรุงเทพฯ 10800<br />โทร.02-555-5000 CPAC CALL CENTER 02-555-5555 Email:cpacinside@scg.com</div></div><br />`;
-      const tempText3 = `<div><b>เรียนคุณ</b> ${rows[0].firstname} <b>นามสกุล</b>  ${rows[0].lastname} <br /><h3 style:"color="#1E90FF"">เราได้รับคำสั่งซื้อของคุณแล้ว คุณจะได้รับอีเมลล์อีกครั้ง เมื่อสินค้าของคุณได้ถูกจัดส่ง</h3></div>`;
+      const tempText3 = `<div><b>เรียนคุณ</b> ${rows[0].firstname} <b>นามสกุล</b>  ${rows[0].lastname} <br /><h3 style:"color:"#1E90FF"">เราได้รับคำสั่งซื้อของคุณแล้ว คุณจะได้รับอีเมลล์อีกครั้ง เมื่อสินค้าของคุณได้ถูกจัดส่ง</h3></div>`;
       const tempText4 = `<div style="text-align: center;>
                 <h4 :style="{ paddingTop: '20px' }">
                       <br><b>แจ้งเตือนการชำระเงินของท่าน</b></h4></div>`;

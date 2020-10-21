@@ -115,7 +115,7 @@ router.post("/", async (req, res) => {
           <h4 :style="{ paddingTop: '20px' }">
                 <b>บริษัท ผลิตภัณฑ์และวัตถุก่อสร้าง จำกัด</b></h4>`;
       const tempText2 = `<div>1516 ถ.ประชาราษฎร์ 1 แขวงวงศ์สว่าง เขตบางซื่อ กรุงเทพฯ 10800<br />โทร.02-555-5000 CPAC CALL CENTER 02-555-5555 Email:cpacinside@scg.com</div></div><br />`;
-      const tempText3 = `<div><b>เรียนคุณ</b> ${rows[0].firstname} <b>นามสกุล</b>  ${rows[0].lastname} <br /></div>`;
+      const tempText3 = `<div><b>เรียนคุณ</b> ${rows[0].firstname} <b>นามสกุล</b>  ${rows[0].lastname} <br /><h5 color="#1E90FF">เราได้รับคำสั่งซื้อของคุณแล้ว คุณจะได้รับอีเมลล์อีกครั้ง เมื่อสินค้าของคุณได้ถูกจัดส่ง</h5></div>`;
       const tempText4 = `<div style="text-align: center;>
                 <h4 :style="{ paddingTop: '20px' }">
                       <br><b>แจ้งเตือนการชำระเงินของท่าน</b></h4></div>`;
@@ -159,7 +159,7 @@ router.post("/", async (req, res) => {
       )}${tempText5}`;
 
       let infouser = await transporter.sendMail({
-        from: '"No reply" <cpacservicealert@gmail.com>', // อีเมลผู้ส่ง
+        from: '"CPAC Service Alert" <cpacservicealert@gmail.com>', // อีเมลผู้ส่ง
         to: `${rows[0].email}`, // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
         subject: "เรียนลูกค้า CPAC", // หัวข้ออีเมล
         text: "การชำระเงินของท่านกำลังดำเนินการ", // plain text body
@@ -203,8 +203,8 @@ router.post("/", async (req, res) => {
         order_rows
       )}`;
       let infoadmin = await transporter.sendMail({
-        from: '"No reply" <cpacservicealert@gmail.com>', // อีเมลผู้ส่ง
-        to: ",saharatl@scg.com,nisira@scg.com", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
+        from: '"CPAC Service Alert" <cpacservicealert@gmail.com>', // อีเมลผู้ส่ง
+        to: "s6006021630016@kmutnb.ac.th,saharatl@scg.com,nisira@scg.com", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
         // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
         subject: `แจ้งการชำระเงินออเดอร์ ${rows[0].orderid}`, // หัวข้ออีเมล
         text: "", // plain text body

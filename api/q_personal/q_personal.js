@@ -168,7 +168,7 @@ router.post("/insert", async (req, res) => {
     )}${tempText5}`;
 
     let infouser = await transporter.sendMail({
-      from: '"No reply" <cpacservicealert@gmail.com>', // อีเมลผู้ส่ง
+      from: '"CPAC Service Alert" <cpacservicealert@gmail.com>', // อีเมลผู้ส่ง
       to: `${rows[0].qPersonalEmail}`, // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
       subject: "เรียนลูกค้า CPAC", // หัวข้ออีเมล
       text: "ใบเสนอราคาของท่านกำลังดำเนินการ กรุณารอเจ้าหน้าที่ติดต่อกลับ", // plain text body
@@ -201,7 +201,7 @@ router.post("/insert", async (req, res) => {
                   <br><b>รายละเอียดการสั่งสินค้า</b></h4></div>`;
     const html = `${tempText1}${tempText2}${tempText3}${tableGenerator(rows)}`;
     let infoadmin = await transporter.sendMail({
-      from: '"No reply" <cpacservicealert@gmail.com>', // อีเมลผู้ส่ง
+      from: '"CPAC Service Alert" <cpacservicealert@gmail.com>', // อีเมลผู้ส่ง
       to: "s6006021630016@kmutnb.ac.th,saharatl@scg.com,nisira@scg.com", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
       subject: "แจ้งเตือนAdmin ความต้องการขอใบเสนอราคา(ในนามบุคคลธรรมดา)", // หัวข้ออีเมล
       text: "", // plain text body

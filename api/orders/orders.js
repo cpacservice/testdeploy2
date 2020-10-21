@@ -387,7 +387,7 @@ router.post("/update", async (req, res) => {
       const tempText4 = `<div style="text-align: center;>
             <h4 :style="{ paddingTop: '20px' }">
                   <br><b>รายละเอียดสินค้าของท่าน</b></h4></div>`;
-      const tempText5 = `<div><h4><b>ส่งไปที่ : </b> ${rows[0].orderAddress}</h4><br/> <h4><b>การจัดส่ง :  </b> ${rows[0].shmName}</h4> <br/> <h4><b>รหัสติดตามพัสดุ :  </b> ${rows[0].tracking}</h4></div>`;
+      const tempText5 = `<div><b>ส่งไปที่ : </b> ${rows[0].orderAddress}<br/><b>การจัดส่ง :  </b> ${rows[0].shmName} <br/><b>รหัสติดตามพัสดุ :  </b> ${rows[0].tracking}</div>`;
       const html = `${tempText1}${tempText2}${tempText3}${tempText4}${tableGenerator(
         rows
       )}${tempText5}`;

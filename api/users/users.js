@@ -204,7 +204,7 @@ router.get("/confirmation/:token", async (req, res) => {
     await db("users").where({ email: decoded.email }).update({
       confirmStatus: true,
     });
-    return res.redirect(`${process.env.WEB_URL}/users/login`)
+    return res.redirect(`http://localhost:3000/users/login`)
   }
   catch (e) {
     res.send({ ok: false, error: e.message });

@@ -433,11 +433,11 @@ router.post("/update", async (req, res) => {
       rows = await db("order_detail as od ")
   .join("orders as o", "o.orderid", "od.orderid")
   .join("products as p", "p.productid", "od.productid")
-        .join("users as u", "u.userid", "o.userid")
-        .join ("payments as pm","pm.orderid","o.orderid")
+  .join("users as u", "u.userid", "o.userid")
+  .join ("payments as pm","pm.orderid","o.orderid")
   .join("ship_medthod as s", "s.shm_id", "o.ship_medthod")
   .where("pm.paymentid", "=", req.body.paymentid)
-  if (orderstatus == 'กำลังจัดส่ง') { 
+
     //ส่งemail แจ้งเเตือนสถานะสินค้ากับลูกค้า
     async function sendMail() {
       // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
@@ -535,8 +535,7 @@ router.post("/update", async (req, res) => {
       return { vat: vat7, netPrice };
     }
     sendMail().catch(console.error);
-  }
-
+ 
   }
   res.send({
     ok: true,

@@ -94,9 +94,9 @@ router.post("/insert", async (req, res) => {
       qPersonalTime: req.body.qPersonalTime,
       qPersonalStatus: active,
     })
-    .returning("qNormalId")
-    .then(function (qNormalId) {
-      quanum = qNormalId;
+    .returning("qPersonalId")
+    .then(function (qPersonalId) {
+      quanum = qPersonalId;
     });
   rows = await db("q_personal").where("qPersonalId", "=", quanum);
   ///send Mail Space
@@ -130,7 +130,7 @@ router.post("/insert", async (req, res) => {
       <li>กรุณารอการติดต่อกลับจากเจ้าหน้าที่ภายใน 3 วันทำการ</li>
       <li>ท่านสามารถดูรายละเอียดการขอใบเสนอราคาของท่าน และ ติดตามสถานะได้ที่หน้าเว็บไซต์ เมนู 'การขอใบเสนอราคา'</li>
     </ul></div>`;
-    function tableGenerator(qNormal) {
+    function tableGenerator(qPersonal) {
       const theader = `<tr style="background :#3399FF" >
             <th style="border:1px solid black;" >สินค้า</th>
             <th style="border:1px solid black;">จำนวน</th>
@@ -139,8 +139,8 @@ router.post("/insert", async (req, res) => {
             </tr>`;
       const tbody = [];
 
-      for (const q of qNormal) {
-        if (q.qNormalQuantity === 0) {
+      for (const q of qPersonal) {
+        if (q.qPersonalQuantity === 0) {
           tbody.push(
             `<tr>
                 <td style="border:1px solid black;">${q.qPersonalProductname}</td>
@@ -208,7 +208,7 @@ router.post("/insert", async (req, res) => {
       html, // html body
     });
     console.log("Message sent: %s", infoadmin.messageId);
-    function tableGenerator(qNormal) {
+    function tableGenerator(qPersonal) {
       const theader = `<tr style="background :#3399FF" >
             <th style="border:1px solid black;" >สินค้า</th>
             <th style="border:1px solid black;">จำนวน</th>
@@ -217,7 +217,7 @@ router.post("/insert", async (req, res) => {
             </tr>`;
       const tbody = [];
 
-      for (const q of qNormal) {
+      for (const q of qPersonal) {
         if (q.qPersonalQuantity === 0) {
           tbody.push(
             `<tr>

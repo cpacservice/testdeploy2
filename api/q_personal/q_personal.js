@@ -153,7 +153,7 @@ router.post("/insert", async (req, res) => {
             `<tr>
                 <td style="border:1px solid black;">${q.qPersonalProductname}</td>
                 <td style=" text-align: center;border:1px solid black;">${q.qPersonalQuantity}</td>
-              <td style=" text-align: center;border:1px solid black;">${q.qPersonalUnittype}</td>
+              <td style=" text-align: center;border:1px solid black;">${q.qPeronalUnittype}</td>
                 </tr>`
           );
         }

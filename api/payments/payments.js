@@ -336,6 +336,93 @@ router.post("/update", async (req, res) => {
       .update({
         orderStatus: "การชำระเงินไม่สำเร็จ",
       });
+      rows = await db("payments as p")
+      .join("orders as o", "o.orderid", "p.orderid")
+      .join("users as u", "u.userid", "o.userid")
+      .join("bank_account as b", "b.bankNum", "p.banknum")
+      .where("p.paymentid", "=", req.body.paymentid);
+    
+      order_rows = await db("order_detail as od ")
+      .join("orders as o", "o.orderid", "od.orderid")
+      .join("products as p", "p.productid", "od.productid")
+      .join("users as u", "u.userid", "o.userid")
+      .join("ship_medthod as s", "s.shm_id", "o.ship_medthod")
+      .where("od.orderid", "=", rows[0].orderid);
+      async function sendMail() {
+        // สร้างออปเจ็ค transporter เพื่อกำหนดการเชื่อมต่อ SMTP และใช้ตอนส่งเมล
+        let transporter = nodemailer.createTransport({
+          host: "smtp.gmail.com",
+          port: 465,
+          secure: true,
+          auth: {
+            type: "OAuth2",
+            user: process.env.EMAIL,
+            pass: process.env.EMAILPASSWORD,
+            clientId: process.env.CLIENTID,
+            clientSecret: process.env.CLIENTSECRET,
+            refreshToken: process.env.REFRESHTOKEN,
+            accessToken: process.env.ACCESSTOKEN,
+            expires: process.env.EXP,
+          },
+        });
+        const tempText1 = `<div style="text-align: center;>
+            <h4 :style="{ paddingTop: '20px' }">
+                  <b>บริษัท ผลิตภัณฑ์และวัตถุก่อสร้าง จำกัด</b></h4>`;
+        const tempText2 = `<div>1516 ถ.ประชาราษฎร์ 1 แขวงวงศ์สว่าง เขตบางซื่อ กรุงเทพฯ 10800<br />โทร.02-555-5000 CPAC CALL CENTER 02-555-5555 Email:cpacinside@scg.com</div></div><br />`;
+        const tempText3 = `<div><b>เรียนคุณ</b> ${rows[0].firstname} <b>นามสกุล</b>  ${rows[0].lastname} <br /><h3 style:"color:"#1E90FF"">เราได้รับคำสั่งซื้อของคุณแล้ว คุณจะได้รับอีเมลล์อีกครั้ง เมื่อสินค้าของคุณได้ถูกจัดส่ง</h3></div>`;
+        const tempText4 = `<div style="text-align: center;>
+                  <h4 :style="{ paddingTop: '20px' }">
+                        <br><b>การชำระเงินของท่านไม่สำเร็จ</b></h4></div>`;
+        const image = `<div><u><b>หลักฐานการโอน</b></u><br ><a href="${rows[0].paymentImage}">คลิกที่นี่</a></div>`;
+        const tempText5 = `<div><b></b><h4>หมายเหตุ</h4></b>
+            <ul>
+            <li>กรุณารอการติดต่อกลับจากเจ้าหน้าที่ภายใน 3 วันทำการ</li>
+            <li>ท่านสามารถดูรายละเอียดการขำระเงินของท่าน และ ติดตามสถานะได้ที่หน้าเว็บไซต์ เมนู 'การซื้อของฉัน'</li>
+          </ul></div>`;
+        function tableGenerator(payments) {
+          const theader = `<tr style="background :#3399FF" >
+                  <th style="border:1px solid black;" >หมายเลขออเดอร์</th>
+                  <th style="border:1px solid black;">ชื่อที่แจ้งชำระ</th>
+                  <th style="border:1px solid black;">ธนาคารที่ชำระ</th>
+                  <th style="border:1px solid black;">ยอดชำระ</th>
+                  <th style="border:1px solid black;">หลักฐานการโอน</th>
+                  <th style="border:1px solid black;">สถานะการชำระเงิน</th>
+  
+                  </tr>`;
+          const tbody = [];
+  
+          for (const payment of payments) {
+            tbody.push(
+              `<tr>
+                      <td style="border:1px solid black;">${payment.orderid}</td>
+                      <td style=" text-align: center;border:1px solid black;">${payment.transferName}</td>
+                      <td style=" text-align: center;border:1px solid black;">${payment.bankName}</td>
+                      <td style=" text-align: center;border:1px solid black;">${payment.totalprice}</td>
+                      <td style=" text-align: center;border:1px solid black;"><img height="150px" width ="100px" src="${payment.paymentImage}"></td>
+                      <td style=" text-align: center;border:1px solid black;">${payment.paymentstatus}</td>
+                      </tr>`
+            );
+          }
+  
+          return `<table style="width: 100%;  border-collapse: collapse; border:1px solid black;">${theader}${tbody.join(
+            ""
+          )}</table>`;
+        }
+        const html = `${tempText1}${tempText2}${tempText3}${tempText4}${tableGenerator(
+          rows
+        )}${tempText5}`;
+  
+        let infouser = await transporter.sendMail({
+          from: '"CPAC Service Alert" <cpacservicealert@gmail.com>', // อีเมลผู้ส่ง
+          to: `${rows[0].email}`, // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
+          subject: "เรียนลูกค้า CPAC", // หัวข้ออีเมล
+          text: "การชำระเงินของท่านไม่สำเร็จ", // plain text body
+          html, // html body
+        });
+        console.log("Message sent: %s", infouser.messageId);
+    }
+    sendMail().catch(console.error);
+  
   } else if (req.body.paymentstatus === "สำเร็จ") {
     rows = await db("orders as o ")
       .join("payments as p", "p.orderid", "o.orderid")

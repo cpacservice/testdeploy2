@@ -427,9 +427,9 @@ router.post("/update", async (req, res) => {
     rows = await db("orders as o ")
       .join("payments as p", "p.orderid", "o.orderid")
       .where("p.paymentid", "=", req.body.paymentid)
-      .update({
-        orderStatus:"กำลังจัดส่ง"
-      });
+      // .update({
+      //   orderStatus:"กำลังจัดส่ง"
+      // });
   }
   res.send({
     ok: true,

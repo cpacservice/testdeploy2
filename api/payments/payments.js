@@ -433,9 +433,10 @@ router.post("/update", async (req, res) => {
       rows = await db("order_detail as od ")
   .join("orders as o", "o.orderid", "od.orderid")
   .join("products as p", "p.productid", "od.productid")
-  .join("users as u", "u.userid", "o.userid")
+        .join("users as u", "u.userid", "o.userid")
+        .join ("payments as p","p.orderid","o.orderid")
   .join("ship_medthod as s", "s.shm_id", "o.ship_medthod")
-  .where("od.orderid", "=", req.body.orderid);
+  .where("o.orderid", "=", req.body.paymentid);
   if (orderstatus == 'กำลังจัดส่ง') { 
     //ส่งemail แจ้งเเตือนสถานะสินค้ากับลูกค้า
     async function sendMail() {

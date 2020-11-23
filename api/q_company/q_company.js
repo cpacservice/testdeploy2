@@ -102,9 +102,9 @@ router.post("/insert", async (req, res) => {
       qCompanyTime: req.body.qCompanyTime,
       qCompanyStatus: active,
     })
-    .returning("qNormalId")
-    .then(function (qNormalId) {
-      quanum = qNormalId;
+    .returning("qCompanyId")
+    .then(function (qCompanyId) {
+      quanum = qCompanyId;
     });
   rows = await db("q_company").where("qCompanyId", "=", quanum);
   ///send Mail Space
@@ -138,7 +138,7 @@ router.post("/insert", async (req, res) => {
           <li>กรุณารอการติดต่อกลับจากเจ้าหน้าที่ภายใน 3 วันทำการ</li>
           <li>ท่านสามารถดูรายละเอียดการขอใบเสนอราคาของท่าน และ ติดตามสถานะได้ที่หน้าเว็บไซต์ เมนู 'การขอใบเสนอราคา'</li>
         </ul></div>`;
-    function tableGenerator(qNormal) {
+    function tableGenerator(qCompany) {
       const theader = `<tr style="background :#3399FF" >
                 <th style="border:1px solid black;" >สินค้า</th>
                 <th style="border:1px solid black;">จำนวน</th>
@@ -147,8 +147,8 @@ router.post("/insert", async (req, res) => {
                 </tr>`;
       const tbody = [];
 
-      for (const q of qNormal) {
-        if (q.qCompanyQuantity === 0) {
+      for (const q of qCompany) {
+        if (q.qCompanyQuantity === 0 ||q.qCompanyQuantity === null ||q.qCompanyQuantity ==="") {
           tbody.push(
             `<tr>
                     <td style="border:1px solid black;">${q.qCompanyProductname}</td>
@@ -217,7 +217,7 @@ router.post("/insert", async (req, res) => {
       html, // html body
     });
     console.log("Message sent: %s", infoadmin.messageId);
-    function tableGenerator(qNormal) {
+    function tableGenerator(qCompany) {
       const theader = `<tr style="background :#3399FF" >
                 <th style="border:1px solid black;" >สินค้า</th>
                 <th style="border:1px solid black;">จำนวน</th>
@@ -226,8 +226,8 @@ router.post("/insert", async (req, res) => {
                 </tr>`;
       const tbody = [];
 
-      for (const q of qNormal) {
-        if (q.qCompanyQuantity === 0) {
+      for (const q of qCompany) {
+        if (q.qCompanyQuantity === 0 ||q.qCompanyQuantity === null ||q.qCompanyQuantity ==="") {
           tbody.push(
             `<tr>
                     <td style="border:1px solid black;">${q.qCompanyProductname}</td>

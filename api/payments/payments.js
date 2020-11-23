@@ -428,11 +428,12 @@ router.post("/update", async (req, res) => {
       .join("payments as p", "p.orderid", "o.orderid")
       .where("p.paymentid", "=", req.body.paymentid)
       .update({
-        orderStatus: "กำลังจัดส่ง",
+        orderStatus:"กำลังจัดส่ง"
       });
   }
   res.send({
     ok: true,
+    test:rows
   });
 });
 router.post("/delete", async (req, res) => {

@@ -140,7 +140,7 @@ router.post("/insert", async (req, res) => {
       const tbody = [];
 
       for (const q of qPersonal) {
-        if (q.qPersonalQuantity === 0) {
+        if (q.qPersonalQuantity === 0 ||q.qPersonalQuantity === null ||q.qPersonalQuantity ==="") {
           tbody.push(
             `<tr>
                 <td style="border:1px solid black;">${q.qPersonalProductname}</td>

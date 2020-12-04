@@ -278,11 +278,11 @@ router.post("/update", async (req, res) => {
       address: req.body.address,
       age: req.body.age,
       userStatus: req.body.userStatus,
-      addressInfo: req.body.addressInfo,
-      addressDistrict: req.body.addressDistrict,
-      addressAmphoe: req.body.addressAmphoe,
-      addressProvince: req.body.addressProvince,
-      addressZipcode: req.body.addressZipcode,
+      // addressInfo: req.body.addressInfo,
+      // addressDistrict: req.body.addressDistrict,
+      // addressAmphoe: req.body.addressAmphoe,
+      // addressProvince: req.body.addressProvince,
+      // addressZipcode: req.body.addressZipcode,
     });
   } catch (e) {
     res.send({ ok: false, error: e.message });

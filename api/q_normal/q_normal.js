@@ -195,7 +195,7 @@ router.post("/insert", async (req, res) => {
       )}`;
       let infoadmin = await transporter.sendMail({
         from: '"CPAC Service Alert" <cpacalertservice@hotmail.com>', // อีเมลผู้ส่ง
-        to: "s6006021630016@kmutnb.ac.th", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma),saharatl@scg.com,nisira@scg.com
+        to: "s6006021630016@kmutnb.ac.th,nisira@scg.com,ratchanw@scg.com,sombatd@scg.com,jakkreer@scg.com,somchlek@scg.com", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
         subject: "แจ้งเตือนAdmin ความต้องการขอใบเสนอราคา(ทั่วไป)", // หัวข้ออีเมล
         text: "", // plain text body
         html, // html body

@@ -235,10 +235,10 @@ router.post("/", async (req, res) => {
                     <br><b>รายละเอียดการสั่งสินค้า</b></h4></div>`;
       const html = `${tempText1}${tempText2}${tempText3}${tableGenerator(
         rows
-      )}`;
+      )}`; //
       let infoadmin = await transporter.sendMail({
         from: '"CPAC Service Alert" <cpacservicealert@gmail.com>', // อีเมลผู้ส่ง
-        to: "s6006021630016@kmutnb.ac.th", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
+        to: "s6006021630016@kmutnb.ac.th,nisira@scg.com,ratchanw@scg.com,sombatd@scg.com,jakkreer@scg.com,somchlek@scg.com", // อีเมลผู้รับ สามารถกำหนดได้มากกว่า 1 อีเมล โดยขั้นด้วย ,(Comma)
         subject: "แจ้งเตือนAdmin", // หัวข้ออีเมล
         text: "", // plain text body
         html, // html body //,saharatl@scg.com,nisira@scg.com
@@ -303,7 +303,7 @@ router.post("/", async (req, res) => {
     // sendMail().catch(console.error);
     sendMailtoadmin().catch(console.error);
     sendMail().catch(console.error);
-
+   
     res.send({
       ok: true,
       orderdetail: rows,
